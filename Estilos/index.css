@@ -1,0 +1,628 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f1ccff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='church-on-sunday' fill='%23faf1fa' fill-opacity='1'%3E%3Cpath d='M77.17 0H80v2.83l-.1.1A39.9 39.9 0 0 1 74.64 20a39.9 39.9 0 0 1 5.24 17.06l.11.11v2.89c-.01 6.9-1.8 13.79-5.35 19.94A39.96 39.96 0 0 1 80 79.94V80h-2.83L66.84 69.66a39.83 39.83 0 0 1-24.1 10.25l.09.09h-5.66l.1-.1c-8.7-.58-17.22-4-24.1-10.23L2.82 80H0V79.94c.01-6.9 1.8-13.8 5.35-19.94A39.96 39.96 0 0 1 0 40.06V37.17l.1-.1A39.9 39.9 0 0 1 5.36 20 39.9 39.9 0 0 1 .1 2.94L0 2.83V0h2.83l-.1.1a39.83 39.83 0 0 1 24.1 10.24L37.18 0H40c0 6.92-1.78 13.83-5.35 20A39.96 39.96 0 0 1 40 40c0-6.92 1.78-13.83 5.35-20A39.96 39.96 0 0 1 40 0h2.83l10.33 10.34A39.83 39.83 0 0 1 77.26.09L77.17 0zm.77 77.94c-.3-5.52-1.8-11-4.49-16a40.18 40.18 0 0 1-5.17 6.34l9.66 9.66zm-12.52-9.7l-6.83-6.83-5.46 5.46-1.41 1.41-9.66 9.66c8.4-.45 16.69-3.68 23.36-9.7zm-23.07 6.58l7.99-7.98a40.05 40.05 0 0 1-3.79-4.9 37.88 37.88 0 0 0-4.2 12.88zM47.68 60a37.98 37.98 0 0 0 4.07 5.42L57.17 60l-5.42-5.42A38 38 0 0 0 47.68 60zm2.66-6.84a40.06 40.06 0 0 0-3.79 4.9 37.88 37.88 0 0 1-4.2-12.88l7.99 7.98zm1.38-1.44l1.41 1.41 5.46 5.46 6.83-6.84a37.85 37.85 0 0 0-23.36-9.7l9.66 9.67zM60 60l6.87 6.87A38.1 38.1 0 0 0 72.32 60a38.11 38.11 0 0 0-5.45-6.87L60 60zm-14.65 0a39.9 39.9 0 0 0-5.24 17.06l-.11.11-.1-.1A39.9 39.9 0 0 0 34.64 60a39.9 39.9 0 0 0 5.24-17.06l.11-.11.1.1A39.9 39.9 0 0 0 45.36 60zm9.23-48.25a37.85 37.85 0 0 1 23.36-9.7l-9.66 9.67-1.41 1.41-5.46 5.46-6.83-6.84zm13.67 13.67L62.83 20l5.42-5.42A38 38 0 0 1 72.32 20a37.98 37.98 0 0 1-4.07 5.42zm5.2-3.47a40.05 40.05 0 0 1-3.79 4.89l7.99 7.98c-.61-4.45-2.01-8.82-4.2-12.87zm-6.58 4.92l1.41 1.41 9.66 9.66a37.85 37.85 0 0 1-23.36-9.7l6.83-6.83 5.46 5.46zM53.13 13.13L60 20l-6.87 6.87A38.11 38.11 0 0 1 47.68 20a38.1 38.1 0 0 1 5.45-6.87zm-1.41-1.41l-9.66-9.66c.3 5.52 1.8 11 4.49 16a40.18 40.18 0 0 1 5.17-6.34zm-9.66 26.22c.3-5.52 1.8-11 4.49-16a40.18 40.18 0 0 0 5.17 6.34l-9.66 9.66zm26.22 13.78l9.66-9.66c-.3 5.52-1.8 11-4.49 16a40.18 40.18 0 0 0-5.17-6.34zm8.98-11.81L66.84 50.34a39.83 39.83 0 0 0-24.1-10.25l10.42-10.43a39.83 39.83 0 0 0 24.1 10.25zm-7.6-26.75a40.06 40.06 0 0 1 3.79 4.9 37.88 37.88 0 0 0 4.2-12.88l-7.99 7.98zm-31.72 28.9c-8.4.45-16.69 3.68-23.36 9.7l6.83 6.83 5.46-5.46 1.41-1.41 9.66-9.66zM22.83 60l5.42 5.42c1.54-1.7 2.9-3.52 4.07-5.42a38 38 0 0 0-4.07-5.42L22.83 60zm5.45 8.28l-1.41-1.41-5.46-5.46-6.83 6.84a37.85 37.85 0 0 0 23.36 9.7l-9.66-9.67zm9.37 6.54l-7.99-7.98a40.05 40.05 0 0 0 3.79-4.9 37.88 37.88 0 0 1 4.2 12.88zM20 60l-6.87-6.87A38.11 38.11 0 0 0 7.68 60a38.11 38.11 0 0 0 5.45 6.87L20 60zm17.26-19.9L26.84 29.65a39.83 39.83 0 0 1-24.1 10.25l10.42 10.43a39.83 39.83 0 0 1 24.1-10.25zm-35.2 1.96l9.66 9.66a40.18 40.18 0 0 0-5.17 6.33c-2.7-5-4.2-10.47-4.5-16zm4.49 19.89c-2.7 5-4.2 10.47-4.5 16l9.67-9.67a40.18 40.18 0 0 1-5.17-6.33zm31.1-16.77c-.61 4.45-2.01 8.82-4.2 12.87a40.06 40.06 0 0 0-3.79-4.89l7.99-7.98zm-4.2-23.23c2.7 5 4.2 10.47 4.5 16l-9.67-9.67c1.97-1.97 3.7-4.1 5.17-6.33zm-14.86-.54l6.83 6.84a37.85 37.85 0 0 1-23.36 9.7l9.66-9.67 1.41-1.41 5.46-5.46zm-8.25 5.43l-7.99 7.98c.61-4.45 2.01-8.82 4.2-12.87a40.04 40.04 0 0 0 3.79 4.89zm1.41-1.42A37.99 37.99 0 0 1 7.68 20a38 38 0 0 1 4.07-5.42L17.17 20l-5.42 5.42zm-5.2-7.37a40.04 40.04 0 0 1 3.79-4.89L2.35 5.18c.61 4.45 2.01 8.82 4.2 12.87zm6.58-4.92l-1.41-1.41-9.66-9.66a37.85 37.85 0 0 1 23.36 9.7l-6.83 6.83-5.46-5.46zm13.74 13.74L20 20l6.87-6.87A38.1 38.1 0 0 1 32.32 20a38.1 38.1 0 0 1-5.45 6.87zm6.58-8.82a40.18 40.18 0 0 0-5.17-6.33l9.66-9.66c-.3 5.52-1.8 11-4.49 16z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+/*Eslogan
+/* <weight>: Use a value from 100 to 900*/
+/* <uniquifier>: Use a unique and descriptive class name*/
+.inter-txt01 {
+  font-family: "Inter", sans-serif;/* Inter si está disponible, si no, cualquier sans-serif */
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  color: rebeccapurple;
+}
+
+/* REDES SOCIALES STICKY */
+.barra-flotante {
+    float: left;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-decoration: none;
+    padding-top: 10px;
+    /*border: solid 1px #4DC247;*/
+    background-color: none;
+    position: fixed;
+    top: 260px;
+    left: 0px;
+    transition: all 300ms ease 0ms;
+}
+
+.barra-flotante a img{
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.barra-flotante a img:hover{
+    opacity: 0.7;
+}
+
+@media only screen and (max-width: 600px) {
+    .barra-flotante {
+        font-size: 14px;
+        padding: 12px 20px;
+        bottom: 20px;
+        right: 20px;
+    }
+} 
+
+.bienvenida{
+    font-family: 'Muli';
+}
+
+.bienvenida b{
+    font-family: 'Poppins', sans-serif;
+    -webkit-text-stroke: 0.5px dodgerblue;
+    color: #FFFFFF;/*F2F3F4*/
+    font-size: 22px;
+}
+
+.agenda-nav {
+    font-weight: 700;
+    color: #7b2cbf !important;
+}
+
+.agenda-section {
+    background-color: #ffffff;
+    padding: 54px 0;
+    margin: 20px 0 34px;
+}
+
+.agenda-intro {
+    background-color: #f6ecfb;
+    border-left: 6px solid #7b2cbf;
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.agenda-kicker {
+    color: #7b2cbf;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.agenda-intro h2 {
+    color: #202124;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 18px;
+}
+
+.agenda-intro p {
+    color: #3b3b3b;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.agenda-contact {
+    border-top: 1px solid rgba(123, 44, 191, 0.22);
+    padding-top: 18px;
+}
+
+.agenda-contact strong,
+.agenda-contact span {
+    display: block;
+}
+
+.agenda-contact strong {
+    color: #202124;
+    font-size: 16px;
+}
+
+.agenda-contact span {
+    color: #555555;
+    margin-top: 5px;
+}
+
+.agenda-form {
+    background-color: #ffffff;
+    border: 1px solid #eadcf2;
+    padding: 34px;
+    min-height: 100%;
+    box-shadow: 0 16px 34px rgba(43, 30, 52, 0.11);
+}
+
+.agenda-form label {
+    color: #202124;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.agenda-form .form-control {
+    border: 1px solid #d7c6df;
+    border-radius: 6px;
+    min-height: 46px;
+    color: #202124;
+}
+
+.agenda-form textarea.form-control {
+    min-height: 118px;
+    resize: vertical;
+}
+
+.agenda-form .form-control:focus {
+    border-color: #7b2cbf;
+    box-shadow: 0 0 0 0.2rem rgba(123, 44, 191, 0.14);
+}
+
+.agenda-submit {
+    background-color: #7b2cbf;
+    border: 0;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: 800;
+    min-height: 48px;
+    padding: 0 22px;
+}
+
+.agenda-submit:hover,
+.agenda-submit:focus {
+    background-color: #5f2194;
+    color: #ffffff;
+}
+
+.agenda-note {
+    color: #666666;
+    font-size: 13px;
+    margin: 14px 0 0;
+}
+
+@media screen and (max-width: 991px) {
+    .agenda-intro {
+        margin-bottom: 18px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .agenda-section {
+        padding: 34px 0;
+    }
+
+    .agenda-intro,
+    .agenda-form {
+        padding: 24px 18px;
+    }
+
+    .agenda-intro h2 {
+        font-size: 25px;
+    }
+
+    .agenda-submit {
+        width: 100%;
+    }
+}
+
+/* SECCION DE MISION Y VISION */
+.bFont{
+    margin-left: 25px;
+    font-size:25px;
+}
+
+.pFont{
+    color: #000000;
+    font-size:18px;
+    margin-left:50px;
+    margin-right:50px;
+    text-align:justify;
+}
+
+#MV{
+    font-size: 25px;
+    border-radius: 5px;
+    padding: 5px;
+    color: dodgerblue;
+    background-color: #FFFFFF;/*#F2F3F4 85C1E9*/
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+/* SECCION DE TRABAJOS QUE SE PUEDEN REALIZAR F2F3F4*/
+#trabajos {
+    color:#85C1E9;
+    font-size:20px;
+    height:auto; /*180px*/
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+#trabajos h4{
+    -webkit-text-stroke: 0.5px dodgerblue;
+    color: #FFFFFF;/*F2F3F4*/
+    font-size: 30px;
+}
+
+.tdt {
+    font-weight: none;
+    color: #1A63E6;
+}
+
+.tdd {
+    color: #333333;
+    font-size: 16px;
+}
+
+#trabajos img {
+    width: 50px;
+    height: 50px;
+}
+
+/*INICIO ODOMETRO ANIMADO*/
+.contadores_principal {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #6495ED;
+    color: #F2F3F4;
+}
+
+.contadores_principal h2{
+    font-size: 18px;
+}
+
+.contadores_principal img{
+    width: 51px;
+    height: 51px;
+}
+
+.contador {
+    width: 24%;
+    text-align: center;
+    display: inline-block;
+}
+
+.contador_cantidad {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: 900;
+}
+
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.ocultar {
+    opacity: 0;
+}
+
+.animar {
+    animation: aparecer 1.3s;
+}
+
+/*Final animación*/     /*FINAL ODOMETRO ANIMADO*/
+
+/* POR QUE ELEGIR OCEAN BULUE ESTILO
+#mensaje{
+    height: auto; 
+    font-family: 'Muli';
+    text-align: center;
+}
+
+#mensaje b{
+    -webkit-text-stroke: 0.8px dodgerblue;
+    color: #FFFFFF;
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+}
+
+#mensaje p{
+    color: #000000;
+    margin-top: 20px;
+    font-size:20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align:justify;
+}
+
+#mensaje img{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    width: 500px;
+    height: 300px;
+}*/
+
+#contenedor {
+    width: 100%;
+    height: auto;
+}
+
+#contenedor b{
+    -webkit-text-stroke: 1px dodgerblue;
+    color: #FFFFFF;/*F2F3F4*/
+    font-size: 28px;
+    font-family: 'Poppins', sans-serif;
+}
+
+#naranja {
+  background-color: none;
+  height: auto;
+}
+
+#naranja img{
+    width: 500px;
+    height: 300px;
+}
+
+#verde {
+  background-color: none;
+  height: auto;
+}
+
+#verde p{
+    color: #000000;
+    margin-left: 5%;
+    font-size:20px;
+    font-family: 'Muli';
+}
+
+/* SECCION DE BANNERS ANIMADOS*/
+.base{
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+.cb1{
+    max-width: 600px;
+}
+
+.cb2{
+    max-width: 600px;
+}
+
+.cb2 h4{
+    font-size: 25px;
+    color: rgb(10,35,100);
+}
+
+/* LLAMADA A LA ACCION CATALOGO */
+.callCatalogo {
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    height: auto;
+    background-color: none;
+    text-align: center;
+}
+.callCatalogo b{
+    font-size: 24px;
+    -webkit-text-stroke: 0.7px dodgerblue;
+    color: #FFFFFF;/*F2F3F4*/
+}
+
+.callCatalogo p{
+    color: #333333;
+    text-align: justify;
+    font-size: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.callCatalogo a{
+    text-decoration: none;
+    color: #333333;
+}
+
+/* FOOTER RESPONSIVE */
+footer {
+    width: 100%;
+    background-color: #DF73FF;
+    color: #FFFFFF;
+    /*padding: 40px;*/
+}
+
+footer a:hover{
+    opacity: 0.6;
+}
+
+.container-footer-all {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    padding-bottom: 10px;
+}
+
+.container-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column1 {
+    max-width: 400px;
+
+}
+
+.column1 h1 {
+    font-size: 22px;
+}
+
+.column1 p {
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-top: 20px;
+}
+
+.column2 {
+    max-width: 400px;
+
+}
+
+.column2 h1{
+    font-size: 22px;
+}
+
+.row1 {
+    margin-top: 20px;
+    display: flex;
+}
+
+.row1 img {
+    width: 36px;
+    height: 36px;
+}
+
+.row1 label {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: white; /*C7C7C7*/
+}
+
+.row1 a{
+    text-decoration: none;
+    color: white;
+}
+
+.column3 {
+    max-width: 400px;
+}
+
+.column3 h1 {
+    font-size: 22px;
+}
+
+.row2 {
+    margin-top: 20px;
+    display: flex;
+}
+
+.row2 a{
+    text-decoration: none;
+    color: white;
+}
+
+.row2 img {
+    width: 36px;
+    height: 36px;
+}
+
+.row2 label {
+    margin-top: 10px;
+    margin-left: 20px;
+    max-width: 140px;
+}
+
+.container-footer {
+    width: 100%;
+    background-color: #101010;
+    padding: 20px;
+    
+}
+
+.footer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.copyright {
+    color: #FFFFFF;
+}
+
+.copyright a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.information a{
+    text-decoration: none;
+    color: white;
+}
+
+@media screen and (max-width: 1100px) {
+    .container-body {
+        flex-wrap: wrap;
+    }
+
+    .column1{
+        max-width: 100%;
+    }
+
+    .column2, .column3 {
+        margin-top: 40px;
+    }
+}
+
+/* Estilos Sticky buttons */
+#wsSticky {
+    position: fixed;
+    bottom: 65px;
+    right: 20px;
+    transition: all 300ms ease 0ms;
+    /*box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);*/
+    z-index: 99;
+}
+
+#wsSticky img{
+    width: 40px;
+    height: 40px;
+}
+
+#wsSticky:hover {
+    opacity: 0.9;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-7px);
+}
+
+/*Ancla de inicio*/
+#BI{
+    position: fixed;
+    bottom: 65px;
+    right: 70px;
+    transition: all 300ms ease 0ms;
+    /*box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);*/
+    z-index: 99;
+}
+
+#BI img {
+    width: 40px;
+    height: 40px;
+}
+
+#BI:hover{
+    opacity: 0.9;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-7px);
+}
+
+@media only screen and (max-width: 600px) {
+    #wsSticky {
+        padding: 12px 20px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    #BI {
+        padding: 12px 20px;
+        bottom: 20px;
+        right: 20px;
+    }
+}

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="Estilos/bootstrap.css">
+    <meta charset="utf-8" />
+    <title>Capacitación | Ocean Blue</title> 
+    <link rel="icon" type="icon/ico" href="Imagenes/icono.ico">
+    <link rel="stylesheet" type="text/css" href="Estilos/capacitacion.css">
+    <!-- Importacion de la biblioteca de animaciones AOS-->
+    <link href="aos/dist/aos.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Barra de navegacion / Header -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <img src="Imagenes/logo_oscuro.png" alt="" width="300" height="45" class="d-inline-block align-text-top img-fluid">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-end">
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.html">
+                    Inicio
+                    <span class="sr-only">(current)</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="servicios.html">Servicios</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" href="capacitacion.html">Capacitación</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="multimedia.html">Multimedia</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="catalogo.html">Catalogo</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="contacto.html">Contacto</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  </nav>
+  <br>
+  <section class="row mx-auto" style="width: 100%;">
+    <div class="col-12 mx-auto my-auto text-center"> <!-- CONTENEDOR FOTO DE OCEAN BLUE -->
+      <img width="100" height="100" src="Imagenes/icono.png" data-aos="fade-down" data-aos-duration="2500">
+    </div>
+    <div class="col-12 text-center" data-aos="zoom-in" data-aos-duration="2000"> <!-- TITULO -->
+        <h1 id="titulo">Capacitación Ocean Blue</h1>
+    </div>
+  </section>
+  <br>
+  <div class="separador" data-aos="fade-down" data-aos-duration="2000"></div>
+    <!-- INICIO TEMAS DE CAPACITACION -->
+    <h3>Redes sociales</h3>
+    <div class="container-fluid row mx-auto">
+      <!-- FLECHA PARA ELEMENTO PREVIO -->
+      <div id="indL" class="col-1 ind">
+        <a id="btnL" class="carousel-control-prev w-100" href="#carouselExampleIndicators" role="button" data-slide="prev" onclick="slideL()">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </div>
+
+      <div class="col-10" data-aos="zoom-in" data-aos-duration="1500">
+        <div id="carouselExampleIndicators" class="carousel slide mx-auto" data-interval="false" data-ride="carousel">
+          <!-- slide es la animacion /// SE quito el data-ride="carousel" -->
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" class="active"></li>
+            <li data-target="#carouselExampleIndicators"></li>
+            <li data-target="#carouselExampleIndicators"></li>
+            <!-- Quite el data-slide-to="2" -->
+          </ol>
+
+          <div class="carousel-inner bgVideo">
+            <div class="carousel-item active">
+              <video id="Sec1Vid1"  class="d-block w-100" title="Oceano Azul" frameborder="0" controls="true" allowfullscreen alt="First slide">
+                <source src="Videos/videoAudio.mp4" type="video/mp4">
+                Your browser does not support the video tag :(.
+              </video>
+            </div>
+
+            <div class="carousel-item bgVideo">
+              <video id="Sec1Vid2" class="d-block w-100" title="Video oleaje oceanico" frameborder="0" controls="true" allowfullscreen alt="Second slide">
+                <source src="Videos/videoplayback.mp4" type="video/mp4">
+                Your browser does not support the video tag :(.
+              </video>
+            </div>
+
+            <div class="carousel-item bgVideo">
+              <video id="Sec1Vid3" class="d-block w-100" title="Video LEDs ciclo for." frameborder="0" controls="true" allowfullscreen alt="Third slide">
+                <source src="Videos/Video_Ejemplo2.mp4" type="video/mp4">
+                Your browser does not support the video tag :(.
+              </video>
+            </div>
+          </div>    
+        </div>
+      </div>
+      
+      <!-- FLECHA PARA ELEMENTO SIGUIENTE -->
+      <div id="indR" class="col-1 ind">
+        <a id="btnR" class="carousel-control-next w-100" href="#carouselExampleIndicators" role="button" data-slide="next" onclick="slideR()">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+
+  <br>
+  <div class="separador" data-aos="fade-down" data-aos-duration="2000"></div>
+  <br>
+<br><br>
+
+<!-- FOOTER RESPONSIVE -->
+      <footer>
+        <div class="container-footer-all">
+          <div class="container-body">
+          <div class="column1">
+            <h1 data-aos="fade-down" data-aos-duration="2000">Horario de atención</h1>
+            <p class="pFont text-light" data-aos="fade-left" data-aos-duration="2500">
+              Contamos con horario de atención de 9:00am a 2:00pm
+              3:00pm a 5:00pm tambien puedes enviar tus propuestas
+              online por los medios que se muestran a continuación.
+            </p>
+          </div>
+          <div class="column2">
+            <h1 data-aos="fade-down" data-aos-duration="2000">Redes sociales</h1>
+            <div class="row1">
+              <a href="https://api.whatsapp.com/send?phone=523112566520&fbclid=IwAR02GY3_ocXL96nrXl2bYngtBnxQawT85ZUusPeOG_3AGCSoEpMzkBE1XPM" target="_blank">
+                <img src="Imagenes/ws.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+              <label data-aos="fade-down" data-aos-duration="3000">
+                <a href="https://api.whatsapp.com/send?phone=523112566520&fbclid=IwAR02GY3_ocXL96nrXl2bYngtBnxQawT85ZUusPeOG_3AGCSoEpMzkBE1XPM" target="_blank">
+                  Contactanos por Whatsapp
+                </a>
+              </label>
+            </div>
+            <div class="row1">
+               <a href="https://www.facebook.com/PublicidadDigitalOceanBlue/" target="_blank">
+                <img src="Imagenes/face.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+              
+              <label data-aos="fade-down" data-aos-duration="2500">
+                <a href="https://www.facebook.com/PublicidadDigitalOceanBlue/" target="_blank">
+                  Siguenos en Facebook
+                </a>
+              </label>
+              
+            </div>
+            <div class="row1">
+              <a href="https://www.instagram.com/oceanbluepublicidaddigital/" target="_blank">
+                <img src="Imagenes/ins.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+              
+              <label data-aos="fade-down" data-aos-duration="2000">
+                <a href="https://www.instagram.com/oceanbluepublicidaddigital/" target="_blank">
+                  Siguenos en Instagram
+                </a>
+              </label>
+            </div>
+
+            <!-- TIK TOK CONTACTO -->
+            <div class="row1">
+              <a href="#" target="_blank">
+                <img src="Imagenes/tiktok.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+              <label data-aos="fade-down" data-aos-duration="1500">
+                <a href="#" target="_blank">
+                  Siguenos en Tik Tok
+                </a>
+              </label>
+            </div>
+
+            <div class="row1">
+              <a href="https://twitter.com/publiOceanBlue?s=20" target="_blank">
+                <img src="Imagenes/twt.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+
+              <label data-aos="fade-down" data-aos-duration="1000">
+                <a href="https://twitter.com/publiOceanBlue?s=20" target="_blank">
+                  Siguenos en Twitter
+                </a>
+              </label>
+              
+            </div>
+            
+            <div class="row1">
+              <a href="https://www.youtube.com/channel/UCgUkmLjHhlUKaClKikLzZ0g/featured" target="_blank">
+                <img src="Imagenes/yt.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+              <label data-aos="fade-down" data-aos-duration="500">
+                <a href="https://www.youtube.com/channel/UCgUkmLjHhlUKaClKikLzZ0g/featured" target="_blank">
+                  Vista nuestro canal
+                </a>
+              </label>
+            </div>
+          </div>
+
+          <div class="column3">
+            <h1 data-aos="fade-down" data-aos-duration="2000">Informacion de contacto</h1>
+            <div class="row2">
+              <a href="https://goo.gl/maps/SjgDyeg9asuVitMeA" target="_blank">
+                <img src="Imagenes/dom.png" data-aos="fade-right" data-aos-duration="3000">
+              </a>
+              <label style="font-size: 14px; text-align: justify;" data-aos="fade-down" data-aos-duration="1500">
+                <a href="https://goo.gl/maps/SjgDyeg9asuVitMeA" target="_blank">
+                  Av. Allende #166 entre C. Ures y P. Sánchez Colonia Centro Tepic, Nayarit, México.
+                </a>
+          </label>
+            </div>
+            <div class="row2">
+              <img src="Imagenes/telefono.png" data-aos="fade-right" data-aos-duration="3000">
+              <label data-aos="fade-down" data-aos-duration="1250">311 160 08 54</label>
+            </div>
+            <div class="row2">
+              <img src="Imagenes/telefono.png" data-aos="fade-right" data-aos-duration="3000">
+              <label data-aos="fade-down" data-aos-duration="1000">311 160 34 83</label>
+            </div>
+            <div class="row2">
+              <img src="Imagenes/mail.png" data-aos="fade-right" data-aos-duration="3000">
+              <label style="font-size: 15px;" data-aos="fade-down" data-aos-duration="750">publicidadoceanblue@gmail.com</label>
+            </div>
+          </div>
+
+          
+        </div>
+        <!--
+      <div class="container-footer">
+        <div class="footer">
+          
+        
+            <div class="copyright">
+              Ut enim ad minim veniam, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua.
+            </div>
+            <div class="information">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            </div>
+          </div>
+        </div>-->
+        </div>
+        
+      </footer>
+
+<!-- GOOGLE MAPS -->
+  <iframe style="margin-bottom: 0px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d656.1970966131084!2d-104.88998353966554!3d21.507275983366135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x84273756b1201837%3A0x8ebb8870258aa11f!2sPublicidad%20Digital%20%22Ocean%20Blue%22!5e0!3m2!1ses-419!2smx!4v1621288295259!5m2!1ses-419!2smx" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+  <!-- Seccion logica y bootstrap -->
+  <script type="text/javascript">
+    var s1v1 = document.getElementById("Sec1Vid1");
+    var s1v2 = document.getElementById("Sec1Vid2");
+    var s1v3 = document.getElementById("Sec1Vid3");
+    var bd = document.getElementById("btnR");
+    var bi = document.getElementById("btnL");
+    var divL = document.getElementById("indL");
+    var divR = document.getElementById("indR")
+    //Variable de recorrido
+    var D = 0;
+    bi.style.pointerEvents = 'none';
+    divL.style.hover = 'none';
+    divL.style.opacity = '0';
+    //Onclick del boton izquierdo
+    function slideL() {
+      D = D-1;
+      if (D == 0) {
+          s1v1.play();
+        //Bloquea el boton de la izquierda cuando esta en el inicio del carrusel
+        bi.style.pointerEvents = 'none';
+        divL.style.opacity = '0';
+        divR.style.opacity = '0.7';
+        bd.style.pointerEvents = 'auto';
+      }
+
+      if (D == 1) {
+        s1v3.pause();
+        s1v2.play();
+        bi.style.pointerEvents = 'auto';
+        bd.style.pointerEvents = 'auto';
+        divL.style.opacity = '0.7';
+        divR.style.opacity = '0.7';
+      }
+    }
+
+    //Onclick del boton derecho
+    function slideR() {
+      D = D+1;
+      if (D == 1) {
+        s1v1.pause();
+        s1v3.pause();
+        s1v2.play();
+        bi.style.pointerEvents = 'auto';
+        bd.style.pointerEvents = 'auto';
+        divL.style.opacity = '0.7';
+        divR.style.opacity = '0.7';
+      }
+
+      if (D == 2) {
+        s1v2.pause();
+        s1v3.play();
+        bi.style.pointerEvents = 'auto';
+        bd.style.pointerEvents = 'none';
+        divR.style.opacity = '0';
+      }
+    }
+  </script>
+  <!-- Librerias bootstrap 4 -->
+  <script src="Javascript/jquery-3.5.1.slim.min.js" type="text/javascript"></script>
+  <script src="Javascript/popper.min.js"></script>
+  <script src="Javascript/bootstrap.min.js"></script>
+  <!-- ANIMACIONES AOS -->
+  <script src="aos/dist/aos.js"></script>
+  <script>
+      AOS.init();
+  </script>
+  </body>
+</html>

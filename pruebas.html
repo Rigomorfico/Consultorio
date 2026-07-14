@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="Estilos/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="Estilos/pruebas.css">
+    <title>Contacto Ocean Blue</title>
+    <link rel="icon" href="Imagenes/icono.ico">
+  </head>
+  <body>
+
+    <!-- PRUEBA PARA BOTON DETECTA VIDEO -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <button>¿Está "Hola Mundo" visible?</button>
+    <div id="holamundo">Hola Mundo</div>
+    <p>.</p>
+    <p>.</p>
+      
+    <!-- Seccion logica y bootstrap -->
+    <script type="text/javascript">
+      function esVisible(elem){
+        /* Ventana de Visualización*/
+        var posTopView = $(window).scrollTop();
+        var posButView = posTopView + $(window).height();
+        /* Elemento a validar*/
+        var elemTop = $(elem).offset().top;
+        var elemBottom = elemTop + $(elem).height();
+        /* Comparamos los dos valores tanto del elemento como de la ventana */
+        var bol = ((elemBottom < posButView && elemBottom > posTopView) || (elemTop >posTopView && elemTop< posButView));
+        if (bol == false) {
+          alert("Este contenido no se encuentra a la vista ")
+        }
+        return bol;
+      }
+
+      $("button").on("click", function() {
+        var ele = document.getElementById('holamundo');
+        console.log(esVisible(ele));
+      });
+    </script>
+
+    <script src="Javascript/jquery-3.5.1.slim.min.js" type="text/javascript"></script>
+    <script src="Javascript/popper.min.js"></script>
+    <script src="Javascript/bootstrap.min.js"></script>
+
+  </body>
+</html>

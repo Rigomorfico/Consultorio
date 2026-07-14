@@ -1,0 +1,263 @@
+* {
+	margin: 0px;
+	padding: 0px;
+    box-sizing: border-box;
+}
+
+body{
+	background-color: #92C5FC;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23f9f9f9' fill-opacity='0.09' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+h1 {
+    -webkit-text-stroke: 0.8px blue;
+    font-family: 'Corbel';
+    color: #F2F3F4;/*#333333;*/
+    font-weight: bold;
+    font-size: 35px;
+}
+
+#pFont{
+    font-size:20px;
+    margin-left:10%;
+    margin-right:10%;
+    text-align:justify;
+}
+
+#trabajos {
+    /*background-color: #F2F3F4;*/
+    font-size:20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tdt {
+    text-align: left;
+    font-weight: none;
+    color: #333333;
+}
+
+.tdt p{
+    margin-left: 5%;
+}
+
+#trabajos img {
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+}
+
+.btnSM {
+    width: 200px;
+    margin-bottom: 10px;
+    background-color: whitesmoke;
+}
+
+/* SECCION DEL FORMULARIO */
+
+/*form{
+    background-color: #F2F3F4;
+    color:black;
+    font-size:25px;
+    height:auto;
+    font-family: Book Antiqua;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 5px;
+}*/
+
+h2{
+    font-family: Corbel;
+    font-size: 35px;
+    text-align: center;
+    color: #333333;
+}
+
+.dt{
+    border-width: 3px;
+    border-style: solid;
+    border-color: #333333;
+    text-align: center;
+    border-radius: 5px;
+}
+
+label{
+    color: #333333;
+    font-weight: bold;
+}
+
+.bp{
+    height: auto;
+    width: auto;
+    font-family: 'Segoe UI Semibold';
+    font-size: 18px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #002366;/*#F2F3F4*/
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: #F2F3F4;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bp:hover{
+    background-color: #F2F3F4;
+    color: dodgerblue;
+    border-color: #000000;
+}
+
+.description{
+    overflow:hidden;
+    width: 90%;
+    padding-left: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 150px;
+    font-family: 'Segoe UI Semibold';
+    font-size: 20px;
+    text-align: justify;
+    background-color: #F2F3F4;/*#E6E6E6#6495ed*/
+    color: #333333;
+    border-radius: 5px;
+    border: 5px, solid, #333333;
+    resize: none;
+}
+
+.select_1{
+    overflow:hidden;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 160px;
+    font-family: 'Segoe UI Semibold';
+    font-size: 20px;
+    background-color: #F2F3F4;/*#E6E6E6;*/
+    color: #333333;/*#002366*/
+    border-radius: 5px;
+    border: 5px, solid, #333333;
+}
+
+.select_1 option{
+    margin-left: 10px;
+}
+/*
+.btn{
+    font-family: 'Segoe UI Semibold';
+    font-size: 18px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #000000;
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: #F2F3F4;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.btn:hover {
+    background-color: #F2F3F4;
+    color: dodgerblue;
+    border-color: dodgerblue;
+}
+*/
+#contacto{
+    text-align: center;
+    font-family: 'Segoe UI Semibold';
+    font-size: 18px;
+    background-color: #F2F3F4;/*#32CD32*/
+    display:block;
+    width: 60%;
+    color: green;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    border-width: 3px;
+    border-style: solid;
+    border-color: green;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#contacto:hover{
+    background-color: #32CD32;
+    color:#F2F3F4;
+    border-width: 3px;
+    border-style: solid;
+    border-color: green;
+}
+
+h3{
+    font-family: 'Corbel';
+    color: #333333;
+    font-weight: bold;
+    font-size: 30px;
+}
+/*
+#ttp {
+    width: 100%;
+    font-family: 'Book Antiqua';
+    font-size: 20px;
+    color: #002366;
+}
+
+.tp {
+    background-color: #F2F3F4;
+    height:auto;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    text-align: center;
+}
+
+.tp img{
+    width: 300px;
+    height: 300px;
+}
+*/
+
+/*header{
+    background-color: white;
+    margin-right: 5%;
+    margin-left: 5%;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-family: Corbel;
+    font-size: 26px;
+    color: #333333;
+    text-align: center;
+}*/
+
+/*.volver{
+	width: auto;
+	height: auto;
+	display: block;
+	background-color: #333333;
+	color: whitesmoke;
+	font-family: Book Antiqua;
+	font-size: 18px;
+	float: left;
+	padding-top: 30px;
+	padding-left: 300px;
+	text-decoration: none;
+	border-radius: 10px;
+	text-align: none;
+}
+
+.volver: hover{
+	background-color: #666666;
+}*/
+
+

@@ -1,0 +1,38 @@
+* {
+	margin: 0px;
+	padding: 0px;
+    box-sizing: border-box;
+}
+
+button {
+  position:fixed;
+  top:5px;
+  right:5px;
+}
+
+p {
+  margin-top: 800px;
+}
+
+/*
+body {
+    background-color: #92C5FC;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23f9f9f9' fill-opacity='0.09' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.ind {
+	background-color: #333333;
+	opacity: 0.7;
+}
+
+.ind a{
+	opacity: 1;
+}
+
+.ind:hover{
+	opacity: 0.8;
+}
+
+iframe{
+	height: 500px;
+}*/

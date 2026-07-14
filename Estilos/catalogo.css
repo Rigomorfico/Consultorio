@@ -1,0 +1,255 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+
+.Catalogobtn {
+    width: auto;
+    display: block;
+    background-color: whitesmoke;
+    color: dodgerblue;
+    text-decoration: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 3px solid dodgerblue;
+    border-radius: 5px;
+}
+
+.Catalogobtn:hover{
+    text-decoration: none;
+    background-color: #85C1E9;
+    color: whitesmoke;
+    border: 3px solid white;
+}
+
+body {
+    background-color: #92C5FC;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23f9f9f9' fill-opacity='0.09' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+header{
+	background-color: #F2F3F4;
+	text-align: center;
+}
+
+header img{
+    margin-top: 10px;
+    width: 350px;
+    height: 50px;
+}
+
+#back {
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 30px;
+    height: 40px;
+    float: left;
+}
+
+#back:hover{
+    opacity: 0.7;
+}
+
+/* INICIO MENU CAATALOGOS*/
+.catalogos{
+    height:auto; /*180px #F2F3F4*/
+    font-family: 'Muli';
+    font-size: 18px;
+	background-color: #F2F3F4;
+	border-radius: 10px;
+    text-align: center;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.catalogos ul{
+	display: flex;
+    list-style: none;
+}
+
+.catalogos a{
+    margin-left: 5%;
+    color: black;
+    text-decoration: none;
+    width: 13%;
+    text-align: center;
+    display: block;
+    background-color: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #3b5998;
+    border-radius: 15px;
+}
+
+.catalogos a:hover{
+    color: dodgerblue;
+    border-color: dodgerblue;
+}
+
+.categorias img{
+	width: 50px;
+	height: 50px;
+}
+
+#titulo{
+    font-family: 'Corbel';
+    color: #3b5998;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+section {
+    background-color: #F2F3F4;
+    height:auto;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* FOOTER RESPONSIVE */
+footer {
+    width: 100%;
+    background-color: #1E90FF;
+    color: #FFFFFF;
+    /*padding: 40px;*/
+}
+
+footer a:hover{
+    opacity: 0.6;
+}
+
+.container-footer-all {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    padding-bottom: 10px;
+}
+
+.container-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column1 {
+    max-width: 400px;
+
+}
+
+.column1 h1 {
+    font-size: 22px;
+}
+
+.column1 p {
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-top: 20px;
+}
+
+.column2 {
+    max-width: 400px;
+
+}
+
+.column2 h1{
+    font-size: 22px;
+}
+
+.row1 {
+    margin-top: 20px;
+    display: flex;
+}
+
+.row1 img {
+    width: 36px;
+    height: 36px;
+}
+
+.row1 label {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: white; /*C7C7C7*/
+}
+
+.row1 a{
+    text-decoration: none;
+    color: white;
+}
+
+.column3 {
+    max-width: 400px;
+}
+
+.column3 h1 {
+    font-size: 22px;
+}
+
+.row2 {
+    margin-top: 20px;
+    display: flex;
+}
+
+.row2 a{
+    text-decoration: none;
+    color: white;
+}
+
+.row2 img {
+    width: 36px;
+    height: 36px;
+}
+
+.row2 label {
+    margin-top: 10px;
+    margin-left: 20px;
+    max-width: 140px;
+}
+
+.container-footer {
+    width: 100%;
+    background-color: #101010;
+    padding: 20px;
+    
+}
+
+.footer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.copyright {
+    color: #FFFFFF;
+}
+
+.copyright a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.information a{
+    text-decoration: none;
+    color: white;
+}
+
+@media screen and (max-width: 1100px) {
+    .container-body {
+        flex-wrap: wrap;
+    }
+
+    .column1{
+        max-width: 100%;
+    }
+
+    .column2, .column3 {
+        margin-top: 40px;
+    }
+}
