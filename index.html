@@ -7,6 +7,18 @@
   <title>Consultorio Psicológico</title>
   <link rel="icon" href="Imagenes/icono.ico">
   <link rel="stylesheet" href="Estilos/sitio.css">
+  <style>
+    /* Estilos mínimos para el modal de consulta externa */
+    .consulta { text-align: center; margin: 1.5rem 0; }
+    .modal-consulta { display: none; position: fixed; inset: 0; z-index: 1200; align-items: center; justify-content: center; }
+    .modal-consulta.active { display: flex; }
+    .modal-consulta .backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+    .modal-consulta .dialog { position: relative; width: 90%; max-width: 900px; height: 80%; background: #fff; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; }
+    .modal-consulta .dialog iframe { border: 0; width: 100%; height: 100%; }
+    .modal-consulta .close { position: absolute; right: 8px; top: 6px; background: transparent; border: none; font-size: 1.6rem; padding: 6px; cursor: pointer; }
+    .consulta-toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 20px; background: rgba(0,0,0,0.85); color: #fff; padding: 0.6rem 1rem; border-radius: 6px; font-size: 0.95rem; z-index: 1300; display: none; }
+    .consulta-toast.show { display: block; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -23,7 +35,7 @@
       <div class="hero-grid">
         <div>
           <p class="eyebrow">Consultorio psicológico en Tepic, Nayarit</p>
-          <h1>Un espacio seguro para escucharte y avanzar</h1>
+          <h1 id="bienvenida">Un espacio seguro para escucharte y avanzar</h1>
           <p class="lead">Soy la Psicóloga Mileidy García. Brindo atención psicológica con un enfoque cognitivo-conductual y humanista, adaptado a tus necesidades y a tu proceso personal.</p>
           <div class="actions"><a class="button" href="contacto.html#cita">Solicitar información</a><a class="button secondary" href="atencion.html">Conocer la atención</a></div>
         </div>
@@ -32,7 +44,7 @@
     </section>
     <section class="section presentation">
       <div class="presentation-grid">
-        <div class="presentation-photo"><img src="Imagenes/celular.jpg" alt="Psicóloga Mileidy García"></div>
+        <div class="presentation-photo"><img src="Imagenes/presentacion.jpeg" alt="Psicóloga Mileidy García"></div>
         <div class="presentation-text">
           <p class="eyebrow">Tu psicóloga</p>
           <h2>Psicóloga Mileidy García</h2>
@@ -140,6 +152,141 @@
     <section class="section"><div class="notice"><h2>Dar el primer paso también es parte del proceso</h2><p>Comunícate para consultar disponibilidad, modalidad de atención y resolver tus dudas antes de agendar.</p><a class="button" href="https://wa.me/523114451806" target="_blank" rel="noopener">Escribir por WhatsApp</a></div></section>
   </main>
   <div class="background-showcase" aria-hidden="true"></div>
+  <section class="support-section">
+      <div class="section">
+        <p class="eyebrow">¿Aun no estas convencido?</p>
+        <h2>Puedes consultar mi cédula profesional</h2>
+        <p class="lead">Presiona el botón y sigue las instrucciones...</p>
+        <div class="consulta" id="consulta-section">
+          <button id="open-consulta" class="button" data-url="https://cedulaprofesional.sep.gob.mx/">Abrir consulta externa</button>
+          <div id="consulta-fallback" style="display:none; margin-top:.6rem; font-size:.95rem;">
+            Esta página no permite embebido. <a id="consulta-openlink" href="https://cedulaprofesional.sep.gob.mx/" target="_blank" rel="noopener">Abrir en nueva pestaña</a>
+          </div>
+        </div>
+        <div id="consulta-modal" class="modal-consulta" aria-hidden="true">
+    <div class="backdrop" id="consulta-backdrop" tabindex="-1"></div>
+    <div class="dialog" role="dialog" aria-modal="true" aria-label="Consulta mi cédula profesional 👩‍🏫">
+      <button class="close" id="close-consulta" aria-label="Cerrar">×</button>
+      <iframe id="consulta-iframe" title="Consulta externa" src="" loading="lazy"></iframe>
+    </div>
+  </div>
+    </section>
+  
+  <div id="consulta-toast" class="consulta-toast" role="status" aria-live="polite"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var openBtn = document.getElementById('open-consulta');
+      var modal = document.getElementById('consulta-modal');
+      var backdrop = document.getElementById('consulta-backdrop');
+      var closeBtn = document.getElementById('close-consulta');
+      var iframe = document.getElementById('consulta-iframe');
+      var toast = document.getElementById('consulta-toast');
+      var sequenceTimers = [];
+      var repeatInterval = null;
+      var copyTimestamp = null;
+      function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function (resolve, reject) {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'absolute';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); resolve(); } catch (e) { reject(e); }
+          document.body.removeChild(ta);
+        });
+      }
+      function showToast(message, ms) {
+        ms = ms || 3000;
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('show');
+        toast.setAttribute('aria-hidden', 'false');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(function () { toast.classList.remove('show'); toast.setAttribute('aria-hidden', 'true'); }, ms);
+      }
+      function openModal(url) {
+        if (!url) return;
+        // este método ya no abre ventanas; solamente asigna la URL al iframe
+        iframe.src = url;
+      }
+      function closeModal() {
+        try { iframe.src = ''; } catch (e) {}
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        // ocultar nota de fallback si estaba visible
+        try { var fallbackEl = document.getElementById('consulta-fallback'); if (fallbackEl) fallbackEl.style.display = 'none'; } catch (e) {}
+        // limpiar timers de secuencia y repetidor
+        try { if (repeatInterval) { clearInterval(repeatInterval); repeatInterval = null; } } catch (e) {}
+        try { sequenceTimers.forEach(function (t) { clearTimeout(t); }); sequenceTimers = []; } catch (e) {}
+        // ocultar cualquier toast visible
+        try { if (toast && toast._timeout) { clearTimeout(toast._timeout); toast._timeout = null; toast.classList.remove('show'); toast.setAttribute('aria-hidden','true'); } } catch (e) {}
+      }
+      if (openBtn) openBtn.addEventListener('click', function () {
+        var url = openBtn.dataset.url;
+        var cedula = '14092227';
+        // copiar primero
+        copyToClipboard(cedula).then(function () {
+          showToast('Cédula ' + cedula + ' de Psic. Mileidy copiada ✅');
+          try { copyTimestamp = Date.now(); } catch (e) { copyTimestamp = null; }
+        }).catch(function () {
+          showToast('No se pudo copiar automáticamente');
+          try { copyTimestamp = Date.now(); } catch (e) { copyTimestamp = null; }
+        }).finally(function () {
+            // Intento único: mostrar modal primero para forzar carga del iframe, luego asignar src.
+            var loaded = false;
+            var fallbackEl = document.getElementById('consulta-fallback');
+            var linkEl = document.getElementById('consulta-openlink');
+            if (linkEl) linkEl.href = url;
+            if (fallbackEl) fallbackEl.style.display = 'none';
+            // mostrar modal antes de asignar src (ayuda cuando el navegador no carga iframes ocultos)
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            // asignar onload: cuando cargue, mostrar mensaje instructivo tras breve retraso
+            iframe.onload = function () {
+              loaded = true;
+              // limpiar cualquier secuencia previa
+              try { if (repeatInterval) { clearInterval(repeatInterval); repeatInterval = null; } } catch (e) {}
+              try { sequenceTimers.forEach(function (t) { clearTimeout(t); }); sequenceTimers = []; } catch (e) {}
+              var gap = 4500; // ~4.5s entre toasts
+              // calcular delay para el primer toast para que haya ~5000ms desde la copia
+              var desiredSinceCopy = 5000;
+              var elapsed = copyTimestamp ? (Date.now() - copyTimestamp) : 0;
+              var baseDelay = Math.max(desiredSinceCopy - elapsed, 0);
+              function showSequence() {
+                          // primer toast
+                          sequenceTimers.push(setTimeout(function () { if (modal.classList.contains('active')) showToast('1.-Has un poco de scroll hacia abajo si es necesario'); }, baseDelay));
+                          // segundo toast
+                          sequenceTimers.push(setTimeout(function () { if (modal.classList.contains('active')) showToast('2.-Selecciona la pestaña [Número de cédula]'); }, baseDelay + gap));
+                          // tercer toast
+                          sequenceTimers.push(setTimeout(function () { if (modal.classList.contains('active')) showToast('3.-Pega el no. de cédula y da clic en buscar 🎉'); }, baseDelay + gap * 2));
+                          // cuarto toast
+                          sequenceTimers.push(setTimeout(function () { if (modal.classList.contains('active')) showToast('4.- ¡¡¡Y listo!!! el sistema te arrojará la información ✅'); }, baseDelay + gap * 3));
+              }
+              // mostrar la secuencia inmediatamente
+              showSequence();
+              // mientras el modal permanezca abierto, repetir cada 16s
+              repeatInterval = setInterval(function () {
+                if (!modal.classList.contains('active')) return;
+                showSequence();
+              }, 22000);
+            };
+            try { iframe.src = url; } catch (e) { /* ignore */ }
+
+    
+        });
+      });
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (backdrop) backdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+    });
+  </script>
   <footer class="site-footer"><div class="footer-wrap"><div><strong>Psicóloga Mileidy García</strong><br>Cédula profesional 14092227</div><div>C. Tabachín 340, Col. Los Sauces, Tepic, Nayarit<br><a href="tel:+523114451806">311 445 1806</a><br><a href="https://www.facebook.com/people/Psic%C3%B3loga-Mileidy-Garc%C3%ADa/61567197522178/" target="_blank" rel="noopener">Sígueme en Facebook</a></div></div></footer>
   <a class="whatsapp" href="https://wa.me/523114451806" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp"><img src="Imagenes/ws.png" alt=""></a>
 </body>
