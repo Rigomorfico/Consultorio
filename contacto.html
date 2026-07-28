@@ -7,9 +7,32 @@
   <section class="soft"><div class="section"><p class="eyebrow">Contacto</p><h1>Solicita información</h1><p class="lead">Consulta disponibilidad, modalidad de atención y resuelve tus dudas antes de agendar.</p></div></section>
   <section class="contact-grid" id="cita">
     <div><h2>Datos de contacto</h2><ul class="contact-list"><li><strong>WhatsApp y teléfono:</strong><br><a href="tel:+523114451806">311 445 1806</a></li><li><strong>Dirección:</strong><br><a href="https://maps.app.goo.gl/f18SQ4kAperyNwbu5" target="_blank" rel="noopener">C. Tabachín 340, Col. Los Sauces, Tepic, Nayarit</a></li><li><strong>Facebook:</strong><br><a href="https://www.facebook.com/share/1JQcRHja62/" target="_blank" rel="noopener">Psicóloga Mileidy García</a></li></ul><p class="notice">Este formulario abre WhatsApp con tus datos preparados; no almacena información en el sitio.</p></div>
-    <form class="card form-card" data-whatsapp-form><h2>Enviar mensaje</h2><label for="nombre">Nombre</label><input id="nombre" name="nombre" autocomplete="name" required><label for="telefono">Teléfono</label><input id="telefono" name="telefono" type="tel" autocomplete="tel" required><label for="mensaje">Mensaje</label><textarea id="mensaje" name="mensaje" required></textarea><button class="button" type="submit">Continuar en WhatsApp</button></form>
+    <form class="card form-card" data-whatsapp-form>
+      <h2>Enviar mensaje</h2>
+      <label for="nombre">Nombre</label>
+      <input id="nombre" name="nombre" autocomplete="name" required>
+      <label for="telefono">Teléfono</label>
+      <input id="telefono" name="telefono" type="tel" autocomplete="tel" required>
+      <div class="companion-field">
+        <span class="companion-field-label">Tu compañero</span>
+        <p class="companion-empty" data-companion-empty>
+          <span class="companion-thumb" aria-hidden="true">🧸</span>
+          <span>Aún no eliges peluche. (OPCIONAL) <a href="#companeros">Ver los compañeros</a></span>
+        </p>
+        <div class="companion-chosen" data-companion-chosen tabindex="-1" hidden>
+          <span class="companion-thumb" data-companion-fallback aria-hidden="true" hidden>🧸</span>
+          <img class="companion-photo" data-companion-img alt="" hidden>
+          <strong data-companion-name></strong>
+          <a class="companion-change" href="#companeros">Cambiar</a>
+        </div>
+        <input type="hidden" name="companero" data-companion-value>
+      </div>
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" name="mensaje" required></textarea>
+      <button class="button" type="submit">Continuar en WhatsApp</button>
+    </form>
   </section>
-  <section class="section carousel-section" aria-label="Elige a tu compañero">
+  <section class="section carousel-section" id="companeros" aria-label="Elige a tu compañero">
     <p class="eyebrow">Peluches de apoyo emocional</p>
     <h2>Elige a tu compañero</h2>
     <p class="lead">Cada compañero puede acompañarte durante tus sesiones. Explóralos con las flechas.</p>
@@ -17,16 +40,17 @@
       <button class="carousel-arrow carousel-prev" type="button" aria-label="Anterior">❮</button>
       <div class="carousel-viewport">
         <ul class="carousel-track">
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/alegrositap.jpeg" alt="Alegrosita"><h3>Alegrosita</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/soleaditop.jpeg" alt="Soleadito"><h3>Soleadito</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/grunositop.jpeg" alt="Gruñosito"><h3>Gruñosito</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/generosita.jpeg" alt="Generosita"><h3>Generosita</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/moradita.jpeg" alt="Osita Moradita"><h3>Osita Moradita</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/pastelita.jpeg" alt="Pastelita"><h3>Pastelita</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/suertudosito.jpeg" alt="Suertudosito abrazable"><h3>Suertudosito abrazable</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/alegrosita.jpeg" alt="Alegrosita abrazable"><h3>Alegrosita abrazable</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/soleadito.jpeg" alt="Soleadito abrazable"><h3>Soleadito abrazable</h3></article></li>
-          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/grunosito.jpeg" alt="Gruñosito abrazable"><h3>Gruñosito abrazable</h3></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/alegrositap.jpeg" alt="Alegrosita"><div class="companion-card-body"><h3>Alegrosita</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/soleaditop.jpeg" alt="Soleadito"><div class="companion-card-body"><h3>Soleadito</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/grunositop.jpeg" alt="Gruñosito"><div class="companion-card-body"><h3>Gruñosito</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/tumbadito.jpeg" alt="Tumbadito"><div class="companion-card-body"><h3>Tumbadito</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/generosita.jpeg" alt="Generosita"><div class="companion-card-body"><h3>Generosita</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/moradita.jpeg" alt="Osita Moradita"><div class="companion-card-body"><h3>Osita Moradita</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/pastelita.jpeg" alt="Pastelita"><div class="companion-card-body"><h3>Pastelita</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/suertudosito.jpeg" alt="Suertudosito abrazable"><div class="companion-card-body"><h3>Suertudosito abrazable</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/alegrosita.jpeg" alt="Alegrosita abrazable"><div class="companion-card-body"><h3>Alegrosita abrazable</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/soleadito.jpeg" alt="Soleadito abrazable"><div class="companion-card-body"><h3>Soleadito abrazable</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
+          <li class="carousel-slide"><article class="companion-card"><img src="Imagenes/grunosito.jpeg" alt="Gruñosito abrazable"><div class="companion-card-body"><h3>Gruñosito abrazable</h3><button class="button secondary companion-choose" type="button" data-companion-choose>Elegir este</button></div></article></li>
         </ul>
       </div>
       <button class="carousel-arrow carousel-next" type="button" aria-label="Siguiente">❯</button>

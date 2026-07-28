@@ -150,15 +150,36 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.65rem); margin-top: 0; }
 .carousel-arrow:hover { background: var(--primary-dark); }
 .carousel-arrow:active { transform: scale(.92); }
 
+/* Elegir compañero desde el carrusel */
+.companion-card-body { display: flex; flex-direction: column; align-items: flex-start; gap: .75rem; }
+.companion-choose { padding: .5rem .9rem; font-size: .95rem; font-family: inherit; cursor: pointer; }
+.companion-card.is-chosen { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(123,44,191,.18), 0 10px 28px rgba(60,35,70,.07); }
+
+/* Compañero elegido, dentro del formulario */
+.companion-field { margin-top: .9rem; }
+.companion-field-label { display: block; font-weight: 700; }
+.companion-empty { display: flex; align-items: center; gap: .85rem; margin: .5rem 0 0; padding: .6rem; color: var(--muted); font-size: .95rem; border: 1px dashed #d9c8e2; border-radius: .6rem; }
+.companion-chosen { display: flex; align-items: center; gap: .85rem; margin-top: .5rem; padding: .6rem; background: var(--soft); border: 1px solid #eadff0; border-radius: .6rem; }
+.companion-chosen:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+/* Estas tres son flex, y flex le gana al atributo hidden: hay que apagarlas a mano */
+.companion-empty[hidden], .companion-chosen[hidden], .companion-thumb[hidden] { display: none; }
+/* Marcador de posición mientras no hay peluche elegido (y respaldo si la foto no carga) */
+.companion-thumb { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; font-size: 2rem; line-height: 1; background: var(--white); border-radius: .5rem; }
+.companion-photo { flex: 0 0 auto; width: 64px; height: 64px; object-fit: cover; border-radius: .5rem; background: var(--white); }
+.companion-change { margin-left: auto; font-size: .92rem; }
+
 @media (prefers-reduced-motion: reduce) {
   .carousel-track { transition: none; }
+  html { scroll-behavior: auto; }
 }
 
 @media (max-width: 500px) {
   .carousel { gap: .4rem; }
-  .companion-card { padding: 1rem; gap: 1rem; }
+  .companion-card { padding: 1rem; gap: 1rem; flex-wrap: wrap; }
   .companion-card img { width: 96px; height: 96px; }
   .carousel-arrow { width: 38px; height: 38px; font-size: 1.2rem; }
+  .companion-thumb, .companion-photo { width: 52px; height: 52px; }
+  .companion-thumb { font-size: 1.6rem; }
 }
 .site-footer { background: #241d28; color: #eee8f1; }
 .background-showcase { min-height: clamp(18rem, 38vw, 32rem); }

@@ -22,7 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
   // Clon de la primera tarjeta al final, para un bucle continuo sin rebobinado
   var clone = slides[0].cloneNode(true);
   clone.setAttribute("aria-hidden", "true");
+  // El clon queda oculto para lectores de pantalla: sus botones no deben ser
+  // alcanzables con Tab. El clic sigue funcionando porque la selección se delega.
+  Array.prototype.forEach.call(clone.querySelectorAll("button"), function (button) {
+    button.tabIndex = -1;
+  });
   track.appendChild(clone);
+
+  // Al enfocar con Tab un botón de una tarjeta fuera de vista, el navegador
+  // desplaza el contenedor recortado y descuadra el translateX; lo devolvemos a cero.
+  var viewport = carousel.querySelector(".carousel-viewport");
+  if (viewport) {
+    viewport.addEventListener("scroll", function () { viewport.scrollLeft = 0; });
+  }
 
   function setTransition(on) { track.style.transition = on ? "" : "none"; }
   function move() { track.style.transform = "translateX(" + (-index * 100) + "%)"; }
