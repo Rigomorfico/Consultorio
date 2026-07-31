@@ -8,85 +8,9 @@
   <title>Agenda administrativa | Psicóloga Mileidy García</title>
   <link rel="icon" href="Imagenes/icono.ico">
   <link rel="stylesheet" href="Estilos/sitio.css">
-  <style>
-    .agenda-access {
-      min-height: calc(100vh - 206px);
-      display: grid;
-      place-items: center;
-      padding: clamp(3rem, 8vw, 6rem) var(--pad);
-    }
-
-    .agenda-panel {
-      width: min(100%, 650px);
-      overflow: hidden;
-      background: rgba(255, 255, 255, .96);
-      border: 1px solid #eadff0;
-      border-radius: 1.25rem;
-      box-shadow: 0 24px 60px rgba(72, 31, 89, .16);
-    }
-
-    .agenda-panel-header {
-      padding: 2rem 2rem 1.5rem;
-      text-align: center;
-      background: linear-gradient(135deg, #fbf8fc, #efdcf8);
-    }
-
-    .calendar-icon {
-      display: inline-grid;
-      place-items: center;
-      width: 72px;
-      height: 72px;
-      margin-bottom: .8rem;
-      color: var(--white);
-      background: var(--primary);
-      border-radius: 1rem;
-      box-shadow: 0 10px 24px rgba(95, 33, 148, .25);
-    }
-
-    .calendar-icon svg { width: 38px; height: 38px; }
-    .agenda-panel h1 { margin: .35rem 0 .75rem; font-size: clamp(2rem, 7vw, 3.25rem); }
-    .agenda-panel .lead { margin: 0 auto; }
-    .agenda-panel-body { padding: 2rem; }
-
-    .privacy-note {
-      display: flex;
-      gap: .9rem;
-      margin-bottom: 1.5rem;
-      padding: 1rem 1.1rem;
-      color: var(--muted);
-      background: var(--soft);
-      border-radius: .75rem;
-    }
-
-    .privacy-note svg { flex: 0 0 auto; width: 24px; height: 24px; color: var(--primary-dark); }
-    .privacy-note p { margin: 0; }
-
-    .google-button {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .75rem;
-      padding: .9rem 1.15rem;
-      color: #3c4043;
-      background: var(--white);
-      border: 1px solid #c9c4cc;
-      border-radius: .55rem;
-      font: inherit;
-      font-weight: 700;
-      cursor: not-allowed;
-      opacity: .72;
-    }
-
-    .google-mark { width: 22px; height: 22px; }
-    .connection-status { margin: .8rem 0 0; color: var(--muted); text-align: center; font-size: .92rem; }
-    .agenda-back { margin: 1.5rem 0 0; text-align: center; }
-
-    @media (max-width: 500px) {
-      .agenda-panel-header, .agenda-panel-body { padding: 1.5rem; }
-      .agenda-access { min-height: auto; padding-block: 2rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="Estilos/agenda.css">
+  <script src="https://accounts.google.com/gsi/client" defer></script>
+  <script src="Javascript/agenda.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -103,50 +27,58 @@
     </div>
   </header>
 
-  <main id="contenido" class="agenda-access">
-    <section class="agenda-panel" aria-labelledby="agenda-title">
-      <div class="agenda-panel-header">
-        <span class="calendar-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
-            <path d="M16 3v4M8 3v4M3 10h18"></path>
-            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path>
-          </svg>
-        </span>
-        <p class="eyebrow">Acceso privado</p>
-        <h1 id="agenda-title">Agenda administrativa</h1>
-        <p class="lead">Conecta la cuenta autorizada para consultar y administrar los eventos del consultorio.</p>
+  <main id="contenido" class="agenda-main">
+    <section class="agenda-login" data-login-panel aria-labelledby="agenda-title">
+      <span class="calendar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path></svg>
+      </span>
+      <p class="eyebrow">Acceso privado</p>
+      <h1 id="agenda-title">Agenda administrativa</h1>
+      <p class="lead">Conecta la cuenta autorizada para consultar y administrar los eventos del consultorio.</p>
+      <div class="privacy-note"><span aria-hidden="true">🔒</span><p>Los eventos permanecen ocultos hasta que Google autorice el acceso. La contraseña nunca se comparte con este sitio.</p></div>
+      <button class="google-button" type="button" data-connect>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.8 3-4.3 3-7.3z"></path><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4L15.4 17c-.9.6-2 1-3.4 1a5.8 5.8 0 0 1-5.5-4H3.2v2.6A10 10 0 0 0 12 22z"></path><path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.9V7.5H3.2a10 10 0 0 0 0 9.1L6.5 14z"></path><path fill="#EA4335" d="M12 6a5.4 5.4 0 0 1 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 12 2a10 10 0 0 0-8.8 5.5l3.3 2.6A5.8 5.8 0 0 1 12 6z"></path></svg>
+        Conectar con Google Calendar
+      </button>
+      <p class="connection-status" data-login-status role="status">Preparando conexión segura…</p>
+      <p><a href="index.html">Volver al sitio principal</a></p>
+    </section>
+
+    <section class="agenda-workspace" data-workspace hidden aria-labelledby="workspace-title">
+      <header class="agenda-toolbar">
+        <div><p class="eyebrow">Google Calendar</p><h1 id="workspace-title">Mi agenda</h1><p class="connection-status" data-sync-status role="status">Sincronizada</p></div>
+        <div class="agenda-actions"><button class="button" type="button" data-new-event>+ Nuevo evento</button><button class="button secondary" type="button" data-refresh>Actualizar</button><button class="text-button" type="button" data-disconnect>Desconectar</button></div>
+      </header>
+
+      <div class="agenda-period">
+        <button class="period-button" type="button" data-previous aria-label="Mes anterior">‹</button>
+        <h2 data-period-title></h2>
+        <button class="period-button" type="button" data-next aria-label="Mes siguiente">›</button>
+        <button class="text-button" type="button" data-today>Hoy</button>
       </div>
 
-      <div class="agenda-panel-body">
-        <div class="privacy-note">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="5" y="10" width="14" height="11" rx="2"></rect>
-            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-          </svg>
-          <p>Esta área será exclusiva para la administración. Los eventos permanecerán ocultos hasta verificar la cuenta de Google.</p>
-        </div>
-
-        <button class="google-button" type="button" disabled aria-describedby="connection-status">
-          <svg class="google-mark" aria-hidden="true" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.8 3-4.3 3-7.3z"></path>
-            <path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4L15.4 17c-.9.6-2 1-3.4 1a5.8 5.8 0 0 1-5.5-4H3.2v2.6A10 10 0 0 0 12 22z"></path>
-            <path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.9V7.5H3.2a10 10 0 0 0 0 9.1L6.5 14z"></path>
-            <path fill="#EA4335" d="M12 6a5.4 5.4 0 0 1 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 12 2a10 10 0 0 0-8.8 5.5l3.3 2.6A5.8 5.8 0 0 1 12 6z"></path>
-          </svg>
-          Conectar con Google Calendar
-        </button>
-        <p class="connection-status" id="connection-status">La conexión segura se habilitará en la siguiente etapa.</p>
-        <p class="agenda-back"><a href="index.html">Volver al sitio principal</a></p>
+      <div class="agenda-content">
+        <section class="month-calendar" aria-label="Calendario mensual">
+          <div class="weekdays" aria-hidden="true"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+          <div class="month-grid" data-month-grid></div>
+        </section>
+        <aside class="event-list-panel"><h2>Eventos del mes</h2><div class="event-list" data-event-list></div></aside>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-wrap">
-      <div><strong>Psicóloga Mileidy García</strong><br>Cédula profesional 14092227</div>
-      <div>C. Tabachín 340, Col. Los Sauces, Tepic, Nayarit<br><a href="tel:+523114451806">311 445 1806</a><br><a href="https://www.facebook.com/people/Psic%C3%B3loga-Mileidy-Garc%C3%ADa/61567197522178/" target="_blank" rel="noopener">Sígueme en Facebook</a></div>
-    </div>
-  </footer>
+  <dialog class="event-dialog" data-event-dialog>
+    <form class="event-form" data-event-form>
+      <div class="dialog-heading"><div><p class="eyebrow">Google Calendar</p><h2 data-form-title>Nuevo evento</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <input type="hidden" name="eventId">
+      <label for="event-summary">Título</label><input id="event-summary" name="summary" required maxlength="200">
+      <div class="form-row"><div><label for="event-start">Inicio</label><input id="event-start" name="start" type="datetime-local" required></div><div><label for="event-end">Fin</label><input id="event-end" name="end" type="datetime-local" required></div></div>
+      <label for="event-description">Notas</label><textarea id="event-description" name="description" rows="4" maxlength="1500"></textarea>
+      <p class="form-error" data-form-error role="alert"></p>
+      <div class="dialog-actions"><button class="danger-button" type="button" data-delete-event hidden>Eliminar</button><span></span><button class="button secondary" type="button" data-close-dialog>Cancelar</button><button class="button" type="submit" data-save-event>Guardar</button></div>
+    </form>
+  </dialog>
+
+  <footer class="site-footer"><div class="footer-wrap"><div><strong>Psicóloga Mileidy García</strong><br>Cédula profesional 14092227</div><div>C. Tabachín 340, Col. Los Sauces, Tepic, Nayarit<br><a href="tel:+523114451806">311 445 1806</a><br><a href="https://www.facebook.com/people/Psic%C3%B3loga-Mileidy-Garc%C3%ADa/61567197522178/" target="_blank" rel="noopener">Sígueme en Facebook</a></div></div></footer>
 </body>
 </html>
