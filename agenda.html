@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Acceso privado a la agenda administrativa de la Psicóloga Mileidy García.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Agenda administrativa | Psicóloga Mileidy García</title>
+  <link rel="icon" href="Imagenes/icono.ico">
+  <link rel="stylesheet" href="Estilos/sitio.css">
+  <style>
+    .agenda-access {
+      min-height: calc(100vh - 206px);
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) var(--pad);
+    }
+
+    .agenda-panel {
+      width: min(100%, 650px);
+      overflow: hidden;
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid #eadff0;
+      border-radius: 1.25rem;
+      box-shadow: 0 24px 60px rgba(72, 31, 89, .16);
+    }
+
+    .agenda-panel-header {
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      background: linear-gradient(135deg, #fbf8fc, #efdcf8);
+    }
+
+    .calendar-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 72px;
+      height: 72px;
+      margin-bottom: .8rem;
+      color: var(--white);
+      background: var(--primary);
+      border-radius: 1rem;
+      box-shadow: 0 10px 24px rgba(95, 33, 148, .25);
+    }
+
+    .calendar-icon svg { width: 38px; height: 38px; }
+    .agenda-panel h1 { margin: .35rem 0 .75rem; font-size: clamp(2rem, 7vw, 3.25rem); }
+    .agenda-panel .lead { margin: 0 auto; }
+    .agenda-panel-body { padding: 2rem; }
+
+    .privacy-note {
+      display: flex;
+      gap: .9rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.1rem;
+      color: var(--muted);
+      background: var(--soft);
+      border-radius: .75rem;
+    }
+
+    .privacy-note svg { flex: 0 0 auto; width: 24px; height: 24px; color: var(--primary-dark); }
+    .privacy-note p { margin: 0; }
+
+    .google-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      padding: .9rem 1.15rem;
+      color: #3c4043;
+      background: var(--white);
+      border: 1px solid #c9c4cc;
+      border-radius: .55rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: not-allowed;
+      opacity: .72;
+    }
+
+    .google-mark { width: 22px; height: 22px; }
+    .connection-status { margin: .8rem 0 0; color: var(--muted); text-align: center; font-size: .92rem; }
+    .agenda-back { margin: 1.5rem 0 0; text-align: center; }
+
+    @media (max-width: 500px) {
+      .agenda-panel-header, .agenda-panel-body { padding: 1.5rem; }
+      .agenda-access { min-height: auto; padding-block: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html"><img src="Imagenes/logotxt.png" alt="Psicóloga Mileidy García"></a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="atencion.html">Atención</a>
+        <a href="enfoque.html">Enfoque</a>
+        <a href="contacto.html">Contacto</a>
+        <span aria-current="page">Agenda</span>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="agenda-access">
+    <section class="agenda-panel" aria-labelledby="agenda-title">
+      <div class="agenda-panel-header">
+        <span class="calendar-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+            <path d="M16 3v4M8 3v4M3 10h18"></path>
+            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path>
+          </svg>
+        </span>
+        <p class="eyebrow">Acceso privado</p>
+        <h1 id="agenda-title">Agenda administrativa</h1>
+        <p class="lead">Conecta la cuenta autorizada para consultar y administrar los eventos del consultorio.</p>
+      </div>
+
+      <div class="agenda-panel-body">
+        <div class="privacy-note">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="10" width="14" height="11" rx="2"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          <p>Esta área será exclusiva para la administración. Los eventos permanecerán ocultos hasta verificar la cuenta de Google.</p>
+        </div>
+
+        <button class="google-button" type="button" disabled aria-describedby="connection-status">
+          <svg class="google-mark" aria-hidden="true" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.8 3-4.3 3-7.3z"></path>
+            <path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4L15.4 17c-.9.6-2 1-3.4 1a5.8 5.8 0 0 1-5.5-4H3.2v2.6A10 10 0 0 0 12 22z"></path>
+            <path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.9V7.5H3.2a10 10 0 0 0 0 9.1L6.5 14z"></path>
+            <path fill="#EA4335" d="M12 6a5.4 5.4 0 0 1 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 12 2a10 10 0 0 0-8.8 5.5l3.3 2.6A5.8 5.8 0 0 1 12 6z"></path>
+          </svg>
+          Conectar con Google Calendar
+        </button>
+        <p class="connection-status" id="connection-status">La conexión segura se habilitará en la siguiente etapa.</p>
+        <p class="agenda-back"><a href="index.html">Volver al sitio principal</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div><strong>Psicóloga Mileidy García</strong><br>Cédula profesional 14092227</div>
+      <div>C. Tabachín 340, Col. Los Sauces, Tepic, Nayarit<br><a href="tel:+523114451806">311 445 1806</a><br><a href="https://www.facebook.com/people/Psic%C3%B3loga-Mileidy-Garc%C3%ADa/61567197522178/" target="_blank" rel="noopener">Sígueme en Facebook</a></div>
+    </div>
+  </footer>
+</body>
+</html>
