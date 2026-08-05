@@ -54,7 +54,7 @@ a { color: var(--primary); }
 img { max-width: 100%; height: auto; }
 .skip-link { position: absolute; left: -9999px; }
 .skip-link:focus { left: 1rem; top: 1rem; z-index: 9999; padding: .7rem 1rem; background: var(--white); }
-.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.96); border-bottom: 5px solid var(--primary); }
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.96); border-bottom: 5px solid var(--soft); }
 .nav-wrap { max-width: 1320px; margin: auto; padding: .65rem 1.25rem 0; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
 .brand img { width: 210px; max-height: 62px; object-fit: contain; }
 /* Pestañas tipo carpeta: todas comparten el morado del fondo y lo que las
@@ -64,7 +64,7 @@ img { max-width: 100%; height: auto; }
 .nav a, .nav [aria-current="page"] {
   position: relative;
   text-decoration: none;
-  background: var(--primary);
+  background: var(--soft);
   border-radius: .7rem .7rem 0 0;
   transform-origin: bottom center;
   transition: transform .2s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
@@ -73,17 +73,17 @@ img { max-width: 100%; height: auto; }
    de enfrente les tapara la luz. */
 .nav a {
   z-index: 1;
-  padding: .45rem .8rem .6rem;
-  color: rgba(255,255,255,.82);
-  background: var(--primary-dark);
-  transform: perspective(420px) rotateX(10deg) scale(.97);
-  box-shadow: inset 0 -14px 14px -12px rgba(20,6,32,.8), inset 0 1px 0 rgba(255,255,255,.14);
+  padding: .35rem .7rem .45rem;
+  color: var(--white);
+  background: var(--primary);
+  transform: perspective(420px) rotateX(6deg) scale(.985);
+  box-shadow: none;
 }
 .nav a:hover {
   color: var(--white);
-  background: var(--primary);
+  background: var(--primary-dark);
   transform: perspective(420px) rotateX(4deg) scale(.99);
-  box-shadow: inset 0 -10px 12px -12px rgba(20,6,32,.5), inset 0 1px 0 rgba(255,255,255,.28);
+  box-shadow: none;
 }
 .nav a:focus-visible { z-index: 4; outline: 3px solid var(--primary-dark); outline-offset: 2px; }
 /* La de enfrente: más alta, derecha, con brillo arriba y sombra propia hacia
@@ -91,16 +91,13 @@ img { max-width: 100%; height: auto; }
 .nav [aria-current="page"] {
   z-index: 3;
   margin: 0 -.2rem;
-  padding: .7rem 1.05rem .95rem;
-  color: var(--white);
+  padding: .55rem .95rem .7rem;
+  color: var(--primary-dark);
   border-radius: .85rem .85rem 0 0;
   font-weight: 700;
   cursor: default;
-  box-shadow:
-    inset 0 2px 0 rgba(255,255,255,.38),
-    0 -4px 12px rgba(72,31,89,.3),
-    9px 7px 12px -7px rgba(20,6,32,.5),
-    -9px 7px 12px -7px rgba(20,6,32,.5);
+  background: var(--soft);
+  box-shadow: none;
 }
 .hero { background: linear-gradient(135deg, #fbf8fc, #efdcf8); }
 .hero-grid, .section, .contact-grid { max-width: 1320px; margin: auto; padding: var(--space-section) var(--pad); }
@@ -267,6 +264,12 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.65rem); margin-top: 0; }
 @media (max-width: 500px) {
   .nav-wrap { text-align: center; }
   .nav { justify-content: center; font-size: .92rem; }
+  .nav a, .nav [aria-current="page"] {
+    transform: none;
+    padding: .28rem .5rem .36rem;
+    font-size: .95rem;
+    border-radius: .6rem .6rem 0 0;
+  }
   .footer-agenda { width: 100%; justify-content: center; margin-left: 0; }
   :root { --space-section: 3rem; --pad: 1rem; }
 }
