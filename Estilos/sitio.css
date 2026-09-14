@@ -275,8 +275,10 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.65rem); margin-top: 0; }
 }
 
 /* ===== Transición con deslizamiento lateral entre páginas ===== */
-/* Fallback universal (Firefox y navegadores sin View Transitions):
-   el contenido de cada página entra deslizándose desde la derecha. */
+/* El deslizamiento de entrada corre siempre desde aquí, haya o no
+   transición nativa: Chrome descarta la suya cuando la página que entra
+   tarda en pintar —le pasa a las más pesadas— y antes eso dejaba esas
+   navegaciones sin animación alguna. */
 @media (prefers-reduced-motion: no-preference) {
   body { overflow-x: clip; }                   /* evita la barra horizontal durante el deslizamiento */
   main { animation: page-enter .8s cubic-bezier(.22, .61, .36, 1) both; }
@@ -287,21 +289,22 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.65rem); margin-top: 0; }
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Navegadores con View Transitions (Chrome, Edge, Safari):
-   la página anterior sale hacia la izquierda y la nueva entra desde la
-   derecha; el encabezado con el menú permanece fijo. */
+/* Navegadores con View Transitions (Chrome, Edge, Safari): la página
+   anterior sale hacia la izquierda y el encabezado con el menú permanece
+   fijo. La que entra solo se funde, sin desplazarse: de deslizarla ya se
+   encarga page-enter, y si aquí también se moviera, el recorrido se
+   vería doble. */
 @supports (view-transition-name: none) {
   @view-transition { navigation: auto; }
 
-  main { animation: none; }                    /* la transición nativa se encarga */
   .site-header { view-transition-name: site-header; }
 
   ::view-transition-old(root) { animation: vt-slide-out .55s cubic-bezier(.55, .06, .68, .19) both; }
-  ::view-transition-new(root) { animation: vt-slide-in  .7s  cubic-bezier(.22, .61, .36, 1) both; }
+  ::view-transition-new(root) { animation: vt-fade-in .45s ease both; }
 }
 
 @keyframes vt-slide-out { to   { opacity: 0; transform: translateX(-8%); } }
-@keyframes vt-slide-in  { from { opacity: 0; transform: translateX(8%); } }
+@keyframes vt-fade-in   { from { opacity: 0; } }
 
 /* Respeta la preferencia de menos movimiento */
 @media (prefers-reduced-motion: reduce) {
