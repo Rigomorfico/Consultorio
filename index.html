@@ -63,6 +63,25 @@
     .hw-spark.s3 { left: 67%; animation-delay: 3.6s; } .hw-spark.s4 { left: 88%; animation-delay: 1.4s; background: #c98bff; box-shadow: 0 0 8px #8e3bd6; }
     .hw-modal.hw-leaving .hw-dialog { animation: hw-vanish .35s ease-in both; }
     .hw-modal.hw-leaving .hw-backdrop { animation: hw-fade .35s ease-in reverse both; }
+    /* Botón flotante: mismas medidas que .whatsapp (sitio.css), apilado justo encima */
+    .hw-fab { position: fixed; right: 1rem; bottom: calc(1rem + 56px + 12px); z-index: 80; width: 56px; height: 56px; border-radius: 50%; padding: 0; cursor: pointer;
+      border: 2px solid rgba(255,179,71,.8); background: radial-gradient(circle at 35% 30%, #4a2470, #1d1030 75%); box-shadow: 0 8px 24px rgba(0,0,0,.2), 0 0 14px rgba(255,122,26,.45);
+      font-size: 28px; line-height: 1; display: flex; align-items: center; justify-content: center; animation: hw-pop .5s cubic-bezier(.2,1.4,.4,1) both, hw-wobble 5s ease-in-out 1s infinite; }
+    .hw-fab[hidden] { display: none; }
+    .hw-fab:hover, .hw-fab:focus-visible { box-shadow: 0 8px 24px rgba(0,0,0,.25), 0 0 22px rgba(255,122,26,.75); }
+    .hw-fab:focus-visible { outline: 2px solid #b6f36a; outline-offset: 3px; }
+    .hw-fab-tip { position: absolute; right: calc(100% + 10px); top: 50%; transform: translateY(-50%) translateX(6px); white-space: nowrap; pointer-events: none;
+      background: #1d1030; color: #ffb347; border: 1px solid rgba(255,122,26,.6); font-size: .85rem; font-weight: 700; padding: 5px 10px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; }
+    .hw-fab:hover .hw-fab-tip, .hw-fab:focus-visible .hw-fab-tip { opacity: 1; transform: translateY(-50%); }
+    @keyframes hw-pop { from { transform: scale(0) rotate(-90deg); } to { transform: none; } }
+    @keyframes hw-wobble { 0%, 84%, 100% { transform: rotate(0); } 88% { transform: rotate(-14deg); } 92% { transform: rotate(12deg); } 96% { transform: rotate(-6deg); } }
+    @media (prefers-reduced-motion: reduce) { .hw-fab { animation: none; } }
+    /* Móviles: dejar aire respecto a las barras del navegador (dvh descuenta la barra de direcciones) */
+    @media (max-width: 600px) {
+      .hw-modal { padding: 28px 16px; padding-top: max(28px, env(safe-area-inset-top)); padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+      .hw-dialog { max-height: calc(100vh - 56px); max-height: calc(100dvh - 56px); }
+      .hw-frame img { max-height: 52vh; max-height: 52dvh; }
+    }
     @keyframes hw-fade { from { opacity: 0; } to { opacity: 1; } }
     @keyframes hw-rise { from { opacity: 0; transform: translateY(40px) scale(.92) rotate(-2deg); } to { opacity: 1; transform: none; } }
     @keyframes hw-vanish { to { opacity: 0; transform: translateY(-20px) scale(.9); filter: blur(6px); } }
@@ -348,6 +367,7 @@
   <a class="whatsapp" href="https://wa.me/523114451806" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp"><img src="Imagenes/ws.png" alt=""></a>
 
   <!-- Popout de Halloween: se muestra una vez por sesión y solo hasta el 1 de noviembre -->
+  <button type="button" id="hw-fab" class="hw-fab" aria-label="Ver la dinámica de Halloween" hidden>🎃<span class="hw-fab-tip" aria-hidden="true">¡Concurso de disfraces!</span></button>
   <div id="hw-modal" class="hw-modal" aria-hidden="true">
     <div class="hw-backdrop" data-hw-close></div>
     <div class="hw-dialog" role="dialog" aria-modal="true" aria-labelledby="hw-title" aria-describedby="hw-desc">
@@ -385,15 +405,18 @@
       // Fecha límite de la campaña: deja de mostrarse a partir del 1 de noviembre
       var fin = new Date(2026, 10, 1);
       var clave = 'hw-octubre-visto';
+      var fab = document.getElementById('hw-fab');
+      if (new Date() >= fin) return;
       var visto = false;
       try { visto = sessionStorage.getItem(clave) === '1'; } catch (e) {}
-      if (new Date() >= fin || visto) return;
 
       var focoPrevio = null;
       var overflowPrevio = '';
       function abrir() {
         focoPrevio = document.activeElement;
         overflowPrevio = document.body.style.overflow;
+        sonoEfecto = false; // permite que el fantasma suene una vez por apertura
+        if (fab) fab.hidden = true;
         modal.classList.add('hw-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -409,9 +432,97 @@
           modal.classList.remove('hw-open', 'hw-leaving');
           modal.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = overflowPrevio;
-          if (focoPrevio && focoPrevio.focus) focoPrevio.focus();
+          if (fab) fab.hidden = false;
+          if (focoPrevio === fab && fab) fab.focus();
+          else if (focoPrevio && focoPrevio !== document.body && focoPrevio.focus) focoPrevio.focus();
         }, reducido ? 0 : 340);
       }
+      // Sonido sintetizado (Web Audio API, sin archivos): un fantasma "ooOOoo" y una caja musical tétrica.
+      // Los navegadores solo permiten audio tras una interacción, por eso suena con el primer clic o tecla.
+      var sonoEfecto = false;
+      function sonidoFantasma() {
+        if (sonoEfecto) return;
+        sonoEfecto = true;
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        var ctx;
+        try { ctx = new Ctx(); } catch (e) { return; }
+        if (ctx.state === 'suspended' && ctx.resume) ctx.resume();
+        var t0 = ctx.currentTime + 0.05;
+
+        // Salida general con eco
+        var master = ctx.createGain();
+        master.gain.value = 0.32;
+        var eco = ctx.createDelay();
+        eco.delayTime.value = 0.28;
+        var retro = ctx.createGain();
+        retro.gain.value = 0.35;
+        master.connect(ctx.destination);
+        master.connect(eco);
+        eco.connect(retro);
+        retro.connect(eco);
+        eco.connect(ctx.destination);
+
+        // Fantasma: dos osciladores ligeramente desafinados con vibrato y una subida-bajada de tono
+        var filtro = ctx.createBiquadFilter();
+        filtro.type = 'lowpass';
+        filtro.frequency.value = 1400;
+        var voz = ctx.createGain();
+        voz.gain.setValueAtTime(0.0001, t0);
+        voz.gain.exponentialRampToValueAtTime(0.5, t0 + 0.35);
+        voz.gain.setValueAtTime(0.5, t0 + 1.1);
+        voz.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.9);
+        filtro.connect(voz);
+        voz.connect(master);
+        var lfo = ctx.createOscillator();
+        var lfoGain = ctx.createGain();
+        lfo.frequency.value = 5.5;
+        lfoGain.gain.value = 14;
+        lfo.connect(lfoGain);
+        [0, 7].forEach(function (detune) {
+          var o = ctx.createOscillator();
+          o.type = 'triangle';
+          o.detune.value = detune;
+          o.frequency.setValueAtTime(260, t0);
+          o.frequency.exponentialRampToValueAtTime(520, t0 + 0.8);
+          o.frequency.exponentialRampToValueAtTime(240, t0 + 1.9);
+          lfoGain.connect(o.frequency);
+          o.connect(filtro);
+          o.start(t0);
+          o.stop(t0 + 2);
+        });
+        lfo.start(t0);
+        lfo.stop(t0 + 2);
+
+        // Caja musical: arpegio menor con un tritono para el toque inquietante
+        var notas = [659.25, 783.99, 987.77, 932.33, 783.99, 622.25, 659.25];
+        notas.forEach(function (f, i) {
+          var t = t0 + 1.5 + i * 0.19;
+          var g = ctx.createGain();
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.35, t + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + (i === notas.length - 1 ? 1.4 : 0.6));
+          g.connect(master);
+          // tono base + armónico agudo suave = sonido de campanita
+          [[f, 1], [f * 4, 0.12]].forEach(function (par) {
+            var o = ctx.createOscillator();
+            var og = ctx.createGain();
+            o.type = 'sine';
+            o.frequency.value = par[0];
+            og.gain.value = par[1];
+            o.connect(og);
+            og.connect(g);
+            o.start(t);
+            o.stop(t + 1.5);
+          });
+        });
+
+        // Liberar el contexto de audio cuando termine el efecto
+        setTimeout(function () { try { ctx.close(); } catch (e) {} }, 6000);
+      }
+      modal.addEventListener('pointerdown', sonidoFantasma);
+      modal.addEventListener('keydown', sonidoFantasma);
+
       modal.addEventListener('click', function (e) {
         if (e.target.closest('[data-hw-close]')) cerrar();
       });
@@ -427,8 +538,12 @@
         }
       });
       // Pequeña pausa para que la página se pinte antes del "susto"
+      // Al reabrir desde la calabaza, ese clic ya es la interacción: el fantasma suena de inmediato
+      if (fab) fab.addEventListener('click', function () { abrir(); sonidoFantasma(); });
+      // Si ya se vio en esta sesión, solo queda el botón flotante; si no, se abre solo.
       // (no se espera a "load" para que los iframes de Facebook no lo retrasen)
-      setTimeout(abrir, 900);
+      if (visto) { if (fab) fab.hidden = false; }
+      else setTimeout(abrir, 900);
     })();
   </script>
 </body>
