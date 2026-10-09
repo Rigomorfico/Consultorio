@@ -19,6 +19,62 @@
     .consulta-toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 20px; background: rgba(0,0,0,0.85); color: #fff; padding: 0.6rem 1rem; border-radius: 6px; font-size: 0.95rem; z-index: 1300; display: none; }
     .consulta-toast.show { display: block; }
   </style>
+  <!-- Popout de Halloween (octubre). Todo usa el prefijo hw- para no afectar el resto del sitio. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap">
+  <style>
+    .hw-modal { --hw-night: #1d1030; --hw-plum: #3a1d55; --hw-pumpkin: #ff7a1a; --hw-ember: #ffb347; --hw-slime: #b6f36a; --hw-ghost: #f6eefe;
+      position: fixed; inset: 0; z-index: 1400; display: none; align-items: center; justify-content: center; padding: 16px; }
+    .hw-modal.hw-open { display: flex; }
+    .hw-backdrop { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(58,29,85,.75), rgba(10,4,18,.88)); backdrop-filter: blur(3px); animation: hw-fade .4s ease both; }
+    .hw-dialog { position: relative; width: 100%; max-width: 420px; max-height: calc(100vh - 32px); display: flex; flex-direction: column;
+      background: linear-gradient(165deg, var(--hw-plum), var(--hw-night) 70%); color: var(--hw-ghost); border-radius: 22px; border: 2px solid rgba(255,122,26,.55);
+      box-shadow: 0 0 0 6px rgba(255,122,26,.08), 0 0 40px rgba(255,122,26,.35), 0 25px 60px rgba(0,0,0,.6); overflow: hidden;
+      animation: hw-rise .6s cubic-bezier(.2,1.3,.4,1) both; font-family: inherit; }
+    .hw-head { position: relative; text-align: center; padding: 18px 48px 10px; }
+    .hw-tag { display: inline-block; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--hw-slime); background: rgba(182,243,106,.1); border: 1px dashed rgba(182,243,106,.5); padding: 3px 10px; border-radius: 999px; }
+    .hw-title { margin: 8px 0 0; font-family: 'Creepster', cursive; font-weight: 400; font-size: clamp(1.9rem, 7vw, 2.4rem); line-height: 1; letter-spacing: .04em; color: var(--hw-pumpkin);
+      text-shadow: 0 0 12px rgba(255,122,26,.6), 0 3px 0 #6b2a00; animation: hw-flicker 4s infinite; }
+    .hw-body { position: relative; padding: 4px 18px 0; overflow: auto; flex: 1 1 auto; scrollbar-width: thin; scrollbar-color: var(--hw-pumpkin) transparent; }
+    .hw-frame { position: relative; border-radius: 14px; padding: 4px; background: linear-gradient(135deg, var(--hw-pumpkin), #8e3bd6, var(--hw-slime)); }
+    .hw-frame img { display: block; width: 100%; max-height: 62vh; object-fit: contain; border-radius: 11px; background: #7a2d0b; }
+    .hw-foot { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 8px; text-align: center; }
+    .hw-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; border-radius: 999px; font-weight: 700; text-decoration: none;
+      color: #2a1200; background: linear-gradient(180deg, var(--hw-ember), var(--hw-pumpkin)); box-shadow: 0 6px 0 #9c4100, 0 10px 20px rgba(255,122,26,.35); transition: transform .15s, box-shadow .15s; }
+    .hw-cta:hover, .hw-cta:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 0 #9c4100, 0 14px 26px rgba(255,122,26,.45); color: #2a1200; }
+    .hw-cta:active { transform: translateY(3px); box-shadow: 0 3px 0 #9c4100; }
+    .hw-later { background: none; border: 0; color: rgba(246,238,254,.7); font: inherit; font-size: .9rem; cursor: pointer; text-decoration: underline dotted; padding: 4px; }
+    .hw-later:hover, .hw-later:focus-visible { color: var(--hw-slime); }
+    .hw-close { position: absolute; top: 12px; right: 12px; z-index: 3; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(246,238,254,.25); background: rgba(0,0,0,.25); color: var(--hw-ghost); font-size: 1.4rem; line-height: 1; cursor: pointer; transition: transform .2s, background .2s; }
+    .hw-close:hover, .hw-close:focus-visible { background: var(--hw-pumpkin); color: #2a1200; transform: rotate(90deg); }
+    .hw-modal :focus-visible { outline: 2px solid var(--hw-slime); outline-offset: 2px; }
+    /* Telaraña y araña colgante */
+    .hw-web { position: absolute; top: 0; left: 0; width: 86px; height: 86px; opacity: .35; pointer-events: none; z-index: 2; }
+    .hw-spider { position: absolute; top: 0; left: 64px; width: 2px; z-index: 2; pointer-events: none; transform-origin: top center; animation: hw-dangle 3.2s ease-in-out infinite; }
+    .hw-spider::before { content: ""; display: block; width: 1px; height: 46px; margin: 0 auto; background: rgba(246,238,254,.5); }
+    .hw-spider span { position: absolute; top: 42px; left: 50%; transform: translateX(-50%); font-size: 18px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.5)); }
+    /* Murciélagos y destellos */
+    .hw-bat { position: absolute; z-index: 1; pointer-events: none; font-size: 22px; opacity: 0; filter: drop-shadow(0 0 6px rgba(142,59,214,.7)); }
+    .hw-bat.b1 { top: 18%; animation: hw-fly 9s linear 1s infinite; }
+    .hw-bat.b2 { top: 55%; font-size: 16px; animation: hw-fly 12s linear 4s infinite reverse; }
+    .hw-spark { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; background: var(--hw-ember); box-shadow: 0 0 8px var(--hw-pumpkin); opacity: 0; pointer-events: none; animation: hw-ember 6s ease-in infinite; }
+    .hw-spark.s1 { left: 12%; animation-delay: .5s; } .hw-spark.s2 { left: 38%; animation-delay: 2.2s; background: var(--hw-slime); box-shadow: 0 0 8px var(--hw-slime); }
+    .hw-spark.s3 { left: 67%; animation-delay: 3.6s; } .hw-spark.s4 { left: 88%; animation-delay: 1.4s; background: #c98bff; box-shadow: 0 0 8px #8e3bd6; }
+    .hw-modal.hw-leaving .hw-dialog { animation: hw-vanish .35s ease-in both; }
+    .hw-modal.hw-leaving .hw-backdrop { animation: hw-fade .35s ease-in reverse both; }
+    @keyframes hw-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes hw-rise { from { opacity: 0; transform: translateY(40px) scale(.92) rotate(-2deg); } to { opacity: 1; transform: none; } }
+    @keyframes hw-vanish { to { opacity: 0; transform: translateY(-20px) scale(.9); filter: blur(6px); } }
+    @keyframes hw-flicker { 0%, 18%, 22%, 62%, 64%, 100% { opacity: 1; } 20%, 63% { opacity: .55; } }
+    @keyframes hw-dangle { 0%, 100% { transform: rotate(-6deg) scaleY(1); } 50% { transform: rotate(6deg) scaleY(1.25); } }
+    @keyframes hw-fly { 0% { left: -30px; opacity: 0; transform: translateY(0); } 10% { opacity: .9; } 50% { transform: translateY(-18px); } 90% { opacity: .9; } 100% { left: calc(100% + 30px); opacity: 0; transform: translateY(0); } }
+    @keyframes hw-ember { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .9; } 100% { transform: translateY(-260px) translateX(14px); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .hw-modal *, .hw-modal *::before { animation: none !important; transition: none !important; }
+      .hw-bat, .hw-spark { display: none; }
+    }
+  </style>
   <script src="Javascript/seguridad.js"></script>
 </head>
 <body>
@@ -290,5 +346,90 @@
   </script>
   <footer class="site-footer"><div class="footer-wrap"><div><strong>Psicóloga Mileidy García</strong><br>Cédula profesional 14092227</div><div>C. Tabachín 340, Col. Los Sauces, Tepic, Nayarit<br><a href="tel:+523114451806">311 445 1806</a><br><a href="https://www.facebook.com/people/Psic%C3%B3loga-Mileidy-Garc%C3%ADa/61567197522178/" target="_blank" rel="noopener">Sígueme en Facebook</a></div><!-- Agenda oculta al público (API de Google Calendar sin funcionar). Para reactivar, quitar este comentario. <a class="footer-agenda" href="agenda.html" aria-label="Abrir agenda administrativa"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path></svg><span>Agenda</span></a> --></div></footer>
   <a class="whatsapp" href="https://wa.me/523114451806" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp"><img src="Imagenes/ws.png" alt=""></a>
+
+  <!-- Popout de Halloween: se muestra una vez por sesión y solo hasta el 1 de noviembre -->
+  <div id="hw-modal" class="hw-modal" aria-hidden="true">
+    <div class="hw-backdrop" data-hw-close></div>
+    <div class="hw-dialog" role="dialog" aria-modal="true" aria-labelledby="hw-title" aria-describedby="hw-desc">
+      <svg class="hw-web" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="#f6eefe" stroke-width="1.2">
+        <path d="M0 0 L100 0 M0 0 L95 45 M0 0 L70 75 M0 0 L45 95 M0 0 L0 100"/>
+        <path d="M22 0 Q20 10 21 9 Q14 15 10 22 Q9 20 0 22"/>
+        <path d="M48 0 Q44 18 44 20 Q32 30 31 34 Q20 40 20 44 Q8 45 0 48"/>
+        <path d="M76 0 Q70 26 69 31 Q52 46 50 52 Q34 62 32 68 Q14 70 0 75"/>
+      </svg>
+      <div class="hw-spider" aria-hidden="true"><span>🕷️</span></div>
+      <span class="hw-bat b1" aria-hidden="true">🦇</span>
+      <span class="hw-bat b2" aria-hidden="true">🦇</span>
+      <span class="hw-spark s1" aria-hidden="true"></span><span class="hw-spark s2" aria-hidden="true"></span>
+      <span class="hw-spark s3" aria-hidden="true"></span><span class="hw-spark s4" aria-hidden="true"></span>
+      <button type="button" class="hw-close" data-hw-close aria-label="Cerrar aviso de Halloween">×</button>
+      <div class="hw-head">
+        <span class="hw-tag">🎃 Solo en octubre</span>
+        <h2 class="hw-title" id="hw-title">¡Boo! Ven disfrazado</h2>
+      </div>
+      <div class="hw-body">
+        <div class="hw-frame">
+          <img src="Imagenes/october.jpeg" id="hw-desc" alt="Luce tus disfraces y gana la oportunidad de tener una sesión gratis. Todo el mes de octubre puedes venir caracterizado o disfrazado; habrá premios para los mejores disfraces. 1er lugar: una sesión gratuita. 2do: 10% en su consulta. 3ro: premio sorpresa. Citas al 311 445 1806.">
+        </div>
+      </div>
+      <div class="hw-foot">
+        <a class="hw-cta" href="https://wa.me/523114451806?text=%C2%A1Hola!%20Quiero%20agendar%20mi%20cita%20disfrazado%20%F0%9F%8E%83" target="_blank" rel="noopener">👻 Agendar mi cita disfrazado</a>
+        <button type="button" class="hw-later" data-hw-close>Me da miedo… quizás después</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var modal = document.getElementById('hw-modal');
+      if (!modal) return;
+      // Fecha límite de la campaña: deja de mostrarse a partir del 1 de noviembre
+      var fin = new Date(2026, 10, 1);
+      var clave = 'hw-octubre-visto';
+      var visto = false;
+      try { visto = sessionStorage.getItem(clave) === '1'; } catch (e) {}
+      if (new Date() >= fin || visto) return;
+
+      var focoPrevio = null;
+      var overflowPrevio = '';
+      function abrir() {
+        focoPrevio = document.activeElement;
+        overflowPrevio = document.body.style.overflow;
+        modal.classList.add('hw-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        var btn = modal.querySelector('.hw-close');
+        if (btn) btn.focus();
+        try { sessionStorage.setItem(clave, '1'); } catch (e) {}
+      }
+      function cerrar() {
+        if (!modal.classList.contains('hw-open') || modal.classList.contains('hw-leaving')) return;
+        modal.classList.add('hw-leaving');
+        var reducido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        setTimeout(function () {
+          modal.classList.remove('hw-open', 'hw-leaving');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = overflowPrevio;
+          if (focoPrevio && focoPrevio.focus) focoPrevio.focus();
+        }, reducido ? 0 : 340);
+      }
+      modal.addEventListener('click', function (e) {
+        if (e.target.closest('[data-hw-close]')) cerrar();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (!modal.classList.contains('hw-open')) return;
+        if (e.key === 'Escape') cerrar();
+        // Mantener el foco dentro del popout
+        if (e.key === 'Tab') {
+          var f = modal.querySelectorAll('a[href], button');
+          var primero = f[0], ultimo = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+          else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+        }
+      });
+      // Pequeña pausa para que la página se pinte antes del "susto"
+      // (no se espera a "load" para que los iframes de Facebook no lo retrasen)
+      setTimeout(abrir, 900);
+    })();
+  </script>
 </body>
 </html>
