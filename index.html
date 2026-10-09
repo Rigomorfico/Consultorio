@@ -427,6 +427,7 @@
       function cerrar() {
         if (!modal.classList.contains('hw-open') || modal.classList.contains('hw-leaving')) return;
         modal.classList.add('hw-leaving');
+        sonidoDespedida();
         var reducido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         setTimeout(function () {
           modal.classList.remove('hw-open', 'hw-leaving');
@@ -440,28 +441,66 @@
       // Sonido sintetizado (Web Audio API, sin archivos): un fantasma "ooOOoo" y una caja musical tétrica.
       // Los navegadores solo permiten audio tras una interacción, por eso suena con el primer clic o tecla.
       var sonoEfecto = false;
-      function sonidoFantasma() {
-        if (sonoEfecto) return;
-        sonoEfecto = true;
+      var sonidoActual = null;
+      // Crea un contexto de audio con salida general y eco; apaga suavemente el sonido anterior si sigue activo
+      function salidaConEco(duracionMs) {
         var Ctx = window.AudioContext || window.webkitAudioContext;
-        if (!Ctx) return;
+        if (!Ctx) return null;
         var ctx;
-        try { ctx = new Ctx(); } catch (e) { return; }
+        try { ctx = new Ctx(); } catch (e) { return null; }
         if (ctx.state === 'suspended' && ctx.resume) ctx.resume();
-        var t0 = ctx.currentTime + 0.05;
-
-        // Salida general con eco
+        if (sonidoActual) {
+          var previo = sonidoActual;
+          try { previo.salida.gain.setTargetAtTime(0, previo.ctx.currentTime, 0.08); } catch (e) {}
+          setTimeout(function () { try { previo.ctx.close(); } catch (e) {} }, 600);
+        }
         var master = ctx.createGain();
         master.gain.value = 0.32;
         var eco = ctx.createDelay();
         eco.delayTime.value = 0.28;
         var retro = ctx.createGain();
         retro.gain.value = 0.35;
-        master.connect(ctx.destination);
+        var salida = ctx.createGain();
+        master.connect(salida);
         master.connect(eco);
         eco.connect(retro);
         retro.connect(eco);
-        eco.connect(ctx.destination);
+        eco.connect(salida);
+        salida.connect(ctx.destination);
+        var actual = { ctx: ctx, salida: salida };
+        sonidoActual = actual;
+        // Liberar el contexto de audio cuando termine el efecto
+        setTimeout(function () {
+          if (sonidoActual === actual) sonidoActual = null;
+          try { ctx.close(); } catch (e) {}
+        }, duracionMs);
+        return { ctx: ctx, master: master, t0: ctx.currentTime + 0.05 };
+      }
+      // Campanita de caja musical: tono base + armónico agudo suave
+      function campanita(ctx, destino, f, t, largo) {
+        var g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.35, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + largo);
+        g.connect(destino);
+        [[f, 1], [f * 4, 0.12]].forEach(function (par) {
+          var o = ctx.createOscillator();
+          var og = ctx.createGain();
+          o.type = 'sine';
+          o.frequency.value = par[0];
+          og.gain.value = par[1];
+          o.connect(og);
+          og.connect(g);
+          o.start(t);
+          o.stop(t + largo + 0.1);
+        });
+      }
+      function sonidoFantasma() {
+        if (sonoEfecto) return;
+        sonoEfecto = true;
+        var s = salidaConEco(6000);
+        if (!s) return;
+        var ctx = s.ctx, master = s.master, t0 = s.t0;
 
         // Fantasma: dos osciladores ligeramente desafinados con vibrato y una subida-bajada de tono
         var filtro = ctx.createBiquadFilter();
@@ -497,31 +536,53 @@
         // Caja musical: arpegio menor con un tritono para el toque inquietante
         var notas = [659.25, 783.99, 987.77, 932.33, 783.99, 622.25, 659.25];
         notas.forEach(function (f, i) {
-          var t = t0 + 1.5 + i * 0.19;
-          var g = ctx.createGain();
-          g.gain.setValueAtTime(0.0001, t);
-          g.gain.exponentialRampToValueAtTime(0.35, t + 0.01);
-          g.gain.exponentialRampToValueAtTime(0.0001, t + (i === notas.length - 1 ? 1.4 : 0.6));
-          g.connect(master);
-          // tono base + armónico agudo suave = sonido de campanita
-          [[f, 1], [f * 4, 0.12]].forEach(function (par) {
-            var o = ctx.createOscillator();
-            var og = ctx.createGain();
-            o.type = 'sine';
-            o.frequency.value = par[0];
-            og.gain.value = par[1];
-            o.connect(og);
-            og.connect(g);
-            o.start(t);
-            o.stop(t + 1.5);
-          });
+          campanita(ctx, master, f, t0 + 1.5 + i * 0.19, i === notas.length - 1 ? 1.4 : 0.6);
         });
-
-        // Liberar el contexto de audio cuando termine el efecto
-        setTimeout(function () { try { ctx.close(); } catch (e) {} }, 6000);
       }
-      modal.addEventListener('pointerdown', sonidoFantasma);
-      modal.addEventListener('keydown', sonidoFantasma);
+      // Despedida: el fantasma se aleja (tono que cae y se apaga) y la caja musical dice "bye-bye" con dos notas
+      function sonidoDespedida() {
+        sonoEfecto = true;
+        var s = salidaConEco(4000);
+        if (!s) return;
+        var ctx = s.ctx, master = s.master, t0 = s.t0;
+        var filtro = ctx.createBiquadFilter();
+        filtro.type = 'lowpass';
+        filtro.frequency.setValueAtTime(1400, t0);
+        filtro.frequency.exponentialRampToValueAtTime(350, t0 + 0.9);
+        var voz = ctx.createGain();
+        voz.gain.setValueAtTime(0.0001, t0);
+        voz.gain.exponentialRampToValueAtTime(0.45, t0 + 0.08);
+        voz.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.95);
+        filtro.connect(voz);
+        voz.connect(master);
+        var lfo = ctx.createOscillator();
+        var lfoGain = ctx.createGain();
+        lfo.frequency.value = 7;
+        lfoGain.gain.value = 18;
+        lfo.connect(lfoGain);
+        [0, 9].forEach(function (detune) {
+          var o = ctx.createOscillator();
+          o.type = 'triangle';
+          o.detune.value = detune;
+          o.frequency.setValueAtTime(560, t0);
+          o.frequency.exponentialRampToValueAtTime(150, t0 + 0.95);
+          lfoGain.connect(o.frequency);
+          o.connect(filtro);
+          o.start(t0);
+          o.stop(t0 + 1);
+        });
+        lfo.start(t0);
+        lfo.stop(t0 + 1);
+        campanita(ctx, master, 987.77, t0 + 0.55, 0.5);
+        campanita(ctx, master, 659.25, t0 + 0.8, 1.2);
+      }
+      // El primer clic o tecla dentro del popout dispara el fantasma, salvo si es para cerrar (eso toca la despedida)
+      modal.addEventListener('pointerdown', function (e) {
+        if (!e.target.closest('[data-hw-close]')) sonidoFantasma();
+      });
+      modal.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape' && !e.target.closest('[data-hw-close]')) sonidoFantasma();
+      });
 
       modal.addEventListener('click', function (e) {
         if (e.target.closest('[data-hw-close]')) cerrar();
