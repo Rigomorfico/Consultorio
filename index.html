@@ -870,15 +870,60 @@
         redoble(ctx, master, 523.25, t0 + 9 * tiempo, 0.9);
         marimba(ctx, master, 130.81, t0 + 9 * tiempo, 1.2, 0.22);
       }
-      // Despedida: dos notas que bajan, como un "adiós"
+      // Cuerda pulsada (algoritmo Karplus-Strong): un ruido corto que se repite y se suaviza suena como una cuerda de nylon
+      var cuerdas = {};
+      function cuerda(ctx, f, duracion) {
+        var llave = f + '_' + duracion;
+        if (cuerdas[llave] && cuerdas[llave].sampleRate === ctx.sampleRate) return cuerdas[llave];
+        var sr = ctx.sampleRate, n = Math.floor(sr * duracion), N = Math.max(2, Math.round(sr / f));
+        var buf = ctx.createBuffer(1, n, sr), d = buf.getChannelData(0), previo = 0, i;
+        // Ruido inicial suavizado: ataque más cálido, como dedo sobre nylon y no púa sobre metal
+        for (i = 0; i < N && i < n; i++) { previo = previo * 0.55 + (Math.random() * 2 - 1) * 0.45; d[i] = previo; }
+        for (i = N; i < n; i++) d[i] = (d[i - N] + d[i - N - 1 < 0 ? 0 : i - N - 1]) * 0.498;
+        cuerdas[llave] = buf;
+        return buf;
+      }
+      // Rasgueo: las cuerdas suenan una tras otra con milisegundos de diferencia
+      // dir 1 = hacia abajo (de grave a agudo), -1 = hacia arriba (de agudo a grave)
+      function rasgueo(ctx, destino, notas, t, dir, separacion, volumen, duracion) {
+        var orden = dir > 0 ? notas : notas.slice().reverse();
+        orden.forEach(function (f, k) {
+          var src = ctx.createBufferSource();
+          var g = ctx.createGain();
+          src.buffer = cuerda(ctx, f, duracion);
+          g.gain.value = volumen * (1 - k * 0.04);
+          src.connect(g);
+          g.connect(destino);
+          src.start(t + k * separacion);
+        });
+      }
+      // Despedida: rasgueo de guitarra española con la cadencia flamenca Fa mayor → Mi mayor
       function sonidoDespedida() {
         sonoEfecto = true;
-        var s = salidaConEco(3000);
+        var s = salidaConEco(3600);
         if (!s) return;
-        var ctx = s.ctx, master = s.master, t0 = s.t0;
-        marimba(ctx, master, 783.99, t0, 0.5);
-        marimba(ctx, master, 523.25, t0 + 0.24, 1.1);
-        marimba(ctx, master, 130.81, t0 + 0.24, 1.1, 0.2);
+        var ctx = s.ctx, t0 = s.t0;
+        // Caja de la guitarra: refuerzo de graves y corte de agudos ásperos
+        var cuerpo = ctx.createBiquadFilter();
+        cuerpo.type = 'peaking';
+        cuerpo.frequency.value = 180;
+        cuerpo.Q.value = 1;
+        cuerpo.gain.value = 5;
+        var tono = ctx.createBiquadFilter();
+        tono.type = 'lowpass';
+        tono.frequency.value = 3800;
+        cuerpo.connect(tono);
+        tono.connect(s.master);
+        // Acordes al aire: Fa (con mi agudo, el color flamenco) y Mi mayor
+        var fa = [87.31, 130.81, 174.61, 220, 261.63, 329.63];
+        var mi = [82.41, 123.47, 164.81, 207.65, 246.94, 329.63];
+        rasgueo(ctx, cuerpo, fa, t0, 1, 0.014, 0.42, 0.9);
+        rasgueo(ctx, cuerpo, fa.slice(2), t0 + 0.2, -1, 0.01, 0.3, 0.6);
+        // Rasgueado: tres dedos que golpean rápido hacia abajo y un rasgueo final que se deja sonar
+        [0, 0.07, 0.14].forEach(function (dt, k) {
+          rasgueo(ctx, cuerpo, mi, t0 + 0.4 + dt, 1, 0.006, 0.22 + k * 0.05, 0.5);
+        });
+        rasgueo(ctx, cuerpo, mi, t0 + 0.64, 1, 0.022, 0.5, 2.4);
       }
       // El primer clic o tecla dentro del popout dispara la melodía, salvo si es para cerrar (eso toca la despedida)
       modal.addEventListener('pointerdown', function (e) {
