@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#7b2cbf">
+    <meta name="description" content="Bitácora del Consultorio Psicológico: fichas de trabajo que permanecen en este dispositivo, también sin conexión.">
+    <title>Bitácora — Consultorio Psicológico</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+    <!-- iPhone / iPad (Safari): ícono e instalación en pantalla de inicio -->
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Bitácora">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/app.css">
+    <script src="js/database.js" defer></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="./" aria-label="Bitácora del consultorio, inicio">
+            <img class="brand-mark" src="icons/icon-192.png" alt="" width="40" height="40">
+            <span><strong>Bitácora</strong><img class="brand-logo" src="icons/logo.png" alt="Psicóloga Mileidy García" width="140" height="40"></span>
+        </a>
+        <div class="topbar-right">
+            <span id="connection-status" class="connection"><span class="status-dot"></span><span>Comprobando conexión</span></span>
+            <button id="install-button" class="button button-quiet" type="button" hidden>Instalar app</button>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="intro">
+            <div>
+                <p class="eyebrow">CONSULTORIO PSICOLÓGICO</p>
+                <h1>Un registro claro de lo que haces.</h1>
+                <p class="intro-copy">Guarda avances, ideas y evidencias en fichas con fecha. Tus datos permanecen en este dispositivo.</p>
+            </div>
+            <button id="new-entry-button" class="button button-primary" type="button"><span aria-hidden="true">＋</span> Nueva ficha</button>
+        </section>
+
+        <section class="privacy-note" aria-label="Privacidad y almacenamiento">
+            <span class="privacy-icon" aria-hidden="true">◇</span>
+            <p><strong>Solo en este dispositivo.</strong> No se envían tus fichas a servidores ni a terceros. Exporta un respaldo para conservarlas en otro lugar.</p>
+        </section>
+
+        <section class="tools" aria-label="Buscar y administrar fichas">
+            <label class="search-box">
+                <span aria-hidden="true">⌕</span>
+                <span class="sr-only">Buscar fichas</span>
+                <input id="search-input" type="search" placeholder="Buscar por título, texto o etiqueta…" autocomplete="off">
+            </label>
+            <label class="sort-control">
+                <span>Orden</span>
+                <select id="sort-select" aria-label="Ordenar fichas">
+                    <option value="desc">Más recientes</option>
+                    <option value="asc">Más antiguas</option>
+                </select>
+            </label>
+            <div class="backup-actions">
+                <button id="export-button" class="button button-secondary" type="button">Descargar respaldo</button>
+                <button id="import-button" class="button button-quiet" type="button">Restaurar respaldo</button>
+                <input id="import-file" class="sr-only" type="file" accept=".json,application/json">
+            </div>
+        </section>
+
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+        <section class="entries-section" aria-labelledby="entries-heading">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TU HISTORIAL</p>
+                    <h2 id="entries-heading">Tus fichas <span id="entry-count" class="count"></span></h2>
+                </div>
+                <span id="storage-label" class="storage-label">Datos guardados localmente</span>
+            </div>
+            <div id="entries-list" class="entries-list" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <dialog id="entry-dialog" class="entry-dialog" aria-labelledby="dialog-title">
+        <form id="entry-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">FICHA DE TRABAJO</p>
+                    <h2 id="dialog-title">Nueva ficha</h2>
+                </div>
+                <button id="close-dialog-button" class="icon-button" type="button" aria-label="Cerrar">×</button>
+            </div>
+            <input id="entry-id" type="hidden">
+            <div class="form-grid">
+                <label class="field field-wide">Título
+                    <input id="entry-title" name="title" type="text" maxlength="120" placeholder="¿En qué estás trabajando?" required>
+                </label>
+                <label class="field">Fecha y hora
+                    <input id="entry-date" name="occurredAt" type="datetime-local" required>
+                </label>
+                <label class="field">Tipo de ficha
+                    <input id="entry-category" name="category" type="text" maxlength="40" list="category-options" placeholder="Ej. Avance, idea, reunión">
+                    <datalist id="category-options">
+                        <option value="Avance"></option><option value="Idea"></option><option value="Reunión"></option><option value="Pendiente"></option><option value="Nota"></option>
+                    </datalist>
+                </label>
+                <label class="field field-wide">Detalle
+                    <textarea id="entry-body" name="body" rows="5" maxlength="10000" placeholder="Anota lo importante, decisiones o próximos pasos…"></textarea>
+                </label>
+                <label class="field field-wide">Etiquetas <span class="field-hint">Separadas por coma</span>
+                    <input id="entry-tags" name="tags" type="text" maxlength="300" placeholder="proyecto, seguimiento, idea">
+                </label>
+                <fieldset class="field field-wide related-field">
+                    <legend>Relacionar con otras fichas <span class="field-hint">Opcional</span></legend>
+                    <div id="related-options" class="related-options"><p class="field-hint">Aún no hay otras fichas para relacionar.</p></div>
+                </fieldset>
+                <div class="field field-wide">
+                    <label for="entry-files">Fotografías y documentos</label>
+                    <input id="entry-files" name="files" type="file" accept="image/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.csv" multiple>
+                    <span class="field-hint">Los archivos se guardan en este dispositivo junto a la ficha.</span>
+                    <div id="existing-attachments" class="existing-attachments"></div>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <button id="cancel-entry-button" class="button button-quiet" type="button">Cancelar</button>
+                <button class="button button-primary" type="submit">Guardar ficha</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="ios-install-dialog" class="entry-dialog ios-dialog" aria-labelledby="ios-install-title">
+        <div class="ios-install">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">IPHONE · SAFARI</p>
+                    <h2 id="ios-install-title">Instala la Bitácora</h2>
+                </div>
+                <button id="close-ios-dialog" class="icon-button" type="button" aria-label="Cerrar">×</button>
+            </div>
+            <ol class="ios-steps">
+                <li>Toca el botón <strong>Compartir</strong> <span class="ios-glyph" aria-hidden="true">⬆︎</span> en la barra de Safari.</li>
+                <li>Desliza y elige <strong>Agregar a pantalla de inicio</strong>.</li>
+                <li>Confirma con <strong>Agregar</strong>. La app abrirá a pantalla completa y funcionará sin conexión.</li>
+            </ol>
+            <p class="field-hint">Instalada, iOS conserva tus fichas aunque pases días sin abrirla. Aun así, descarga un respaldo de vez en cuando.</p>
+            <div class="dialog-actions"><button id="ok-ios-dialog" class="button button-primary" type="button">Entendido</button></div>
+        </div>
+    </dialog>
+
+    <div id="update-banner" class="update-banner" role="status" hidden>
+        <p>Hay una actualización lista. Tus fichas se conservarán.</p>
+        <button id="apply-update-button" class="button button-light" type="button">Actualizar ahora</button>
+        <button id="dismiss-update-button" class="update-dismiss" type="button" aria-label="Más tarde">×</button>
+    </div>
+</body>
+</html>
