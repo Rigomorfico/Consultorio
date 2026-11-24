@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
     <meta name="theme-color" content="#7b2cbf">
-    <meta name="description" content="Bitácora del Consultorio Psicológico: fichas de trabajo que permanecen en este dispositivo, también sin conexión.">
+    <meta name="description" content="Agenda del Consultorio Psicológico: citas por hora que permanecen en este dispositivo, también sin conexión.">
     <title>Bitácora — Consultorio Psicológico</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
@@ -32,95 +32,104 @@
         </div>
     </header>
 
-    <main class="page">
-        <section class="intro">
-            <div>
-                <p class="eyebrow">CONSULTORIO PSICOLÓGICO</p>
-                <h1>Un registro claro de lo que haces.</h1>
-                <p class="intro-copy">Guarda avances, ideas y evidencias en fichas con fecha. Tus datos permanecen en este dispositivo.</p>
+    <main class="app">
+        <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+        <aside id="sidebar" class="sidebar" aria-label="Calendario y ajustes">
+            <div class="sidebar-top">
+                <button id="new-entry-button" class="button button-primary button-block" type="button"><span aria-hidden="true">＋</span> Nueva ficha</button>
+                <button id="close-sidebar-button" class="icon-button sidebar-close" type="button" aria-label="Cerrar calendario">×</button>
             </div>
-            <button id="new-entry-button" class="button button-primary" type="button"><span aria-hidden="true">＋</span> Nueva ficha</button>
-        </section>
 
-        <section class="privacy-note" aria-label="Privacidad y almacenamiento">
-            <span class="privacy-icon" aria-hidden="true">◇</span>
-            <p><strong>Solo en este dispositivo.</strong> No se envían tus fichas a servidores ni a terceros. Exporta un respaldo para conservarlas en otro lugar.</p>
-        </section>
+            <section class="panel mini-calendar" aria-labelledby="mini-title">
+                <div class="mini-head">
+                    <button id="mini-prev" class="icon-button" type="button" aria-label="Mes anterior">‹</button>
+                    <h2 id="mini-title" class="mini-title"></h2>
+                    <button id="mini-next" class="icon-button" type="button" aria-label="Mes siguiente">›</button>
+                </div>
+                <div class="mini-weekdays" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+                <div id="mini-grid" class="mini-grid"></div>
+            </section>
 
-        <section class="tools" aria-label="Buscar y administrar fichas">
-            <label class="search-box">
-                <span aria-hidden="true">⌕</span>
-                <span class="sr-only">Buscar fichas</span>
-                <input id="search-input" type="search" placeholder="Buscar por título, texto o etiqueta…" autocomplete="off">
-            </label>
-            <label class="sort-control">
-                <span>Orden</span>
-                <select id="sort-select" aria-label="Ordenar fichas">
-                    <option value="desc">Más recientes</option>
-                    <option value="asc">Más antiguas</option>
-                </select>
-            </label>
-            <div class="backup-actions">
-                <button id="export-button" class="button button-secondary" type="button">Descargar respaldo</button>
-                <button id="import-button" class="button button-quiet" type="button">Restaurar respaldo</button>
-                <input id="import-file" class="sr-only" type="file" accept=".json,application/json">
-            </div>
-        </section>
+            <section class="panel" aria-labelledby="settings-title">
+                <p id="settings-title" class="eyebrow">HORARIO DE ATENCIÓN</p>
+                <div class="settings-row">
+                    <label class="mini-field">Desde<select id="start-hour"></select></label>
+                    <label class="mini-field">Hasta<select id="end-hour"></select></label>
+                </div>
+                <label class="mini-field mini-field-wide">Días
+                    <select id="days-select">
+                        <option value="mon-fri">Lunes a viernes</option>
+                        <option value="mon-sat">Lunes a sábado</option>
+                        <option value="all">Toda la semana</option>
+                    </select>
+                </label>
+            </section>
 
-        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
-        <section class="entries-section" aria-labelledby="entries-heading">
-            <div class="section-heading">
-                <div>
-                    <p class="eyebrow">TU HISTORIAL</p>
-                    <h2 id="entries-heading">Tus fichas <span id="entry-count" class="count"></span></h2>
+            <section class="panel panel-soft" aria-label="Privacidad y respaldo">
+                <p class="privacy-copy"><strong>Solo en este dispositivo.</strong> Las fichas no se envían a ningún servidor. Descarga un respaldo de vez en cuando.</p>
+                <div class="backup-actions">
+                    <button id="export-button" class="button button-secondary" type="button">Descargar respaldo</button>
+                    <button id="import-button" class="button button-quiet" type="button">Restaurar</button>
+                    <input id="import-file" class="sr-only" type="file" accept=".json,application/json">
                 </div>
                 <span id="storage-label" class="storage-label">Datos guardados localmente</span>
+            </section>
+        </aside>
+
+        <section class="planner" aria-labelledby="range-label">
+            <div class="planner-toolbar">
+                <button id="toggle-sidebar-button" class="icon-button toolbar-calendar" type="button" aria-label="Abrir calendario" aria-controls="sidebar" aria-expanded="false">▦</button>
+                <div class="nav-group">
+                    <button id="prev-button" class="icon-button" type="button" aria-label="Anterior">‹</button>
+                    <button id="today-button" class="button button-secondary button-small" type="button">Hoy</button>
+                    <button id="next-button" class="icon-button" type="button" aria-label="Siguiente">›</button>
+                </div>
+                <h1 id="range-label" class="range-label"></h1>
+                <span id="range-count" class="range-count"></span>
+                <button id="new-entry-mobile" class="button button-primary button-small toolbar-new" type="button" aria-label="Nueva ficha"><span aria-hidden="true">＋</span></button>
             </div>
-            <div id="entries-list" class="entries-list" aria-live="polite"></div>
+            <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+            <div id="schedule-scroll" class="schedule-scroll">
+                <div id="schedule" class="schedule"></div>
+            </div>
+            <p id="drag-hint" class="drag-hint">Toca una hora libre para agendar. Arrastra una ficha para moverla.</p>
         </section>
     </main>
 
     <dialog id="entry-dialog" class="entry-dialog" aria-labelledby="dialog-title">
-        <form id="entry-form">
+        <form id="entry-form" novalidate>
             <div class="dialog-heading">
                 <div>
-                    <p class="eyebrow">FICHA DE TRABAJO</p>
+                    <p class="eyebrow">FICHA DE CITA</p>
                     <h2 id="dialog-title">Nueva ficha</h2>
                 </div>
                 <button id="close-dialog-button" class="icon-button" type="button" aria-label="Cerrar">×</button>
             </div>
             <input id="entry-id" type="hidden">
             <div class="form-grid">
-                <label class="field field-wide">Título
-                    <input id="entry-title" name="title" type="text" maxlength="120" placeholder="¿En qué estás trabajando?" required>
+                <label class="field field-wide">Nombre del paciente
+                    <input id="entry-patient" name="patient" type="text" maxlength="80" list="patient-options" autocomplete="off" placeholder="Ej. Ana López" required>
+                    <datalist id="patient-options"></datalist>
                 </label>
-                <label class="field">Fecha y hora
-                    <input id="entry-date" name="occurredAt" type="datetime-local" required>
+                <label class="field field-wide">Tipo de consulta
+                    <input id="entry-type" name="type" type="text" maxlength="50" list="type-options" autocomplete="off" placeholder="Ej. Primera vez, seguimiento…" required>
+                    <datalist id="type-options"></datalist>
                 </label>
-                <label class="field">Tipo de ficha
-                    <input id="entry-category" name="category" type="text" maxlength="40" list="category-options" placeholder="Ej. Avance, idea, reunión">
-                    <datalist id="category-options">
-                        <option value="Avance"></option><option value="Idea"></option><option value="Reunión"></option><option value="Pendiente"></option><option value="Nota"></option>
-                    </datalist>
+                <label class="field">Día
+                    <input id="entry-date" name="date" type="date" required>
                 </label>
-                <label class="field field-wide">Detalle
-                    <textarea id="entry-body" name="body" rows="5" maxlength="10000" placeholder="Anota lo importante, decisiones o próximos pasos…"></textarea>
+                <label class="field">Hora
+                    <select id="entry-hour" name="hour" required></select>
                 </label>
-                <label class="field field-wide">Etiquetas <span class="field-hint">Separadas por coma</span>
-                    <input id="entry-tags" name="tags" type="text" maxlength="300" placeholder="proyecto, seguimiento, idea">
-                </label>
-                <fieldset class="field field-wide related-field">
-                    <legend>Relacionar con otras fichas <span class="field-hint">Opcional</span></legend>
-                    <div id="related-options" class="related-options"><p class="field-hint">Aún no hay otras fichas para relacionar.</p></div>
+                <fieldset class="field field-wide color-field">
+                    <legend>Color de la ficha</legend>
+                    <div id="color-options" class="swatches"></div>
                 </fieldset>
-                <div class="field field-wide">
-                    <label for="entry-files">Fotografías y documentos</label>
-                    <input id="entry-files" name="files" type="file" accept="image/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.csv" multiple>
-                    <span class="field-hint">Los archivos se guardan en este dispositivo junto a la ficha.</span>
-                    <div id="existing-attachments" class="existing-attachments"></div>
-                </div>
             </div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
             <div class="dialog-actions">
+                <button id="delete-entry-button" class="button button-danger" type="button" hidden>Eliminar</button>
+                <span class="actions-spacer"></span>
                 <button id="cancel-entry-button" class="button button-quiet" type="button">Cancelar</button>
                 <button class="button button-primary" type="submit">Guardar ficha</button>
             </div>

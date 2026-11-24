@@ -2,7 +2,8 @@
     "use strict";
 
     const DB_NAME = "bitacora-personal";
-    const DB_VERSION = 1;
+    // v2: agenda por horas ("appointments"). Los almacenes de la versión 1 no se borran.
+    const DB_VERSION = 2;
     let databasePromise;
 
     function open() {
@@ -11,13 +12,9 @@
             const request = indexedDB.open(DB_NAME, DB_VERSION);
             request.onupgradeneeded = () => {
                 const db = request.result;
-                if (!db.objectStoreNames.contains("entries")) {
-                    const entries = db.createObjectStore("entries", { keyPath: "id" });
-                    entries.createIndex("occurredAt", "occurredAt");
-                }
-                if (!db.objectStoreNames.contains("attachments")) {
-                    const attachments = db.createObjectStore("attachments", { keyPath: "id" });
-                    attachments.createIndex("entryId", "entryId");
+                if (!db.objectStoreNames.contains("appointments")) {
+                    const appointments = db.createObjectStore("appointments", { keyPath: "id" });
+                    appointments.createIndex("date", "date");
                 }
                 if (!db.objectStoreNames.contains("settings")) {
                     db.createObjectStore("settings", { keyPath: "key" });
@@ -37,7 +34,7 @@
             };
             request.onblocked = () => {
                 databasePromise = undefined;
-                reject(new Error("La base de datos está ocupada por otra pestaña. Ciérrala e inténtalo de nuevo."));
+                reject(new Error("La app está abierta en otra pestaña con una versión anterior. Ciérrala e inténtalo de nuevo."));
             };
         });
         return databasePromise;
@@ -50,57 +47,40 @@
         });
     }
 
+    function transactionDone(transaction, message) {
+        return new Promise((resolve, reject) => {
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error || new Error(message));
+            transaction.onabort = () => reject(transaction.error || new Error(message));
+        });
+    }
+
     async function readAll(storeName) {
         const db = await open();
         return requestResult(db.transaction(storeName, "readonly").objectStore(storeName).getAll());
     }
 
-    async function saveEntry(entry, addedAttachments, removedAttachmentIds) {
+    // Guarda una o varias fichas en una sola transacción (p. ej. al intercambiar dos horarios).
+    async function saveAppointments(appointments) {
         const db = await open();
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(["entries", "attachments"], "readwrite");
-            transaction.objectStore("entries").put(entry);
-            const store = transaction.objectStore("attachments");
-            removedAttachmentIds.forEach((id) => store.delete(id));
-            addedAttachments.forEach((attachment) => store.put(attachment));
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => reject(transaction.error || new Error("No se pudo guardar la ficha."));
-            transaction.onabort = () => reject(transaction.error || new Error("Se canceló el guardado de la ficha."));
-        });
+        const transaction = db.transaction("appointments", "readwrite");
+        const store = transaction.objectStore("appointments");
+        appointments.forEach((appointment) => store.put(appointment));
+        return transactionDone(transaction, "No se pudo guardar la ficha.");
     }
 
-    async function deleteEntry(entryId, attachmentIds) {
+    async function deleteAppointment(id) {
         const db = await open();
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(["entries", "attachments"], "readwrite");
-            const entryStore = transaction.objectStore("entries");
-            entryStore.delete(entryId);
-            const readEntries = entryStore.getAll();
-            readEntries.onsuccess = () => {
-                readEntries.result.forEach((entry) => {
-                    if (!(entry.relatedEntryIds || []).includes(entryId)) return;
-                    entry.relatedEntryIds = entry.relatedEntryIds.filter((id) => id !== entryId);
-                    entry.updatedAt = new Date().toISOString();
-                    entryStore.put(entry);
-                });
-            };
-            const store = transaction.objectStore("attachments");
-            attachmentIds.forEach((id) => store.delete(id));
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => reject(transaction.error || new Error("No se pudo eliminar la ficha."));
-            transaction.onabort = () => reject(transaction.error || new Error("Se canceló la eliminación."));
-        });
+        const transaction = db.transaction("appointments", "readwrite");
+        transaction.objectStore("appointments").delete(id);
+        return transactionDone(transaction, "No se pudo eliminar la ficha.");
     }
 
     async function saveSetting(setting) {
         const db = await open();
         const transaction = db.transaction("settings", "readwrite");
         transaction.objectStore("settings").put(setting);
-        return new Promise((resolve, reject) => {
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => reject(transaction.error || new Error("No se pudo guardar la configuración."));
-            transaction.onabort = () => reject(transaction.error || new Error("Se canceló el guardado de la configuración."));
-        });
+        return transactionDone(transaction, "No se pudo guardar la configuración.");
     }
 
     async function readSetting(key) {
@@ -108,20 +88,14 @@
         return requestResult(db.transaction("settings", "readonly").objectStore("settings").get(key));
     }
 
-    async function importRecords(entries, attachments, settings) {
+    async function importRecords(appointments, settings) {
         const db = await open();
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(["entries", "attachments", "settings"], "readwrite");
-            const entryStore = transaction.objectStore("entries");
-            const attachmentStore = transaction.objectStore("attachments");
-            entries.forEach((entry) => entryStore.add(entry));
-            attachments.forEach((attachment) => attachmentStore.add(attachment));
-            settings.forEach((setting) => transaction.objectStore("settings").put(setting));
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => reject(transaction.error || new Error("No se pudo importar el respaldo."));
-            transaction.onabort = () => reject(transaction.error || new Error("Se canceló la importación."));
-        });
+        const transaction = db.transaction(["appointments", "settings"], "readwrite");
+        const store = transaction.objectStore("appointments");
+        appointments.forEach((appointment) => store.add(appointment));
+        settings.forEach((setting) => transaction.objectStore("settings").put(setting));
+        return transactionDone(transaction, "No se pudo importar el respaldo.");
     }
 
-    window.LocalDatabase = { open, readAll, readSetting, saveEntry, deleteEntry, saveSetting, importRecords };
+    window.LocalDatabase = { open, readAll, readSetting, saveSetting, saveAppointments, deleteAppointment, importRecords };
 })();
