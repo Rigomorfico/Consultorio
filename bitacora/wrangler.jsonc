@@ -1,0 +1,9 @@
+// Worker "bitacora": publica SOLO esta carpeta como sitio estático en app.psicologamileidygarcia.com.
+// En Cloudflare, el Worker debe llamarse exactamente "bitacora" y tener Root directory = bitacora.
+{
+  "name": "bitacora",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "."
+  }
+}
