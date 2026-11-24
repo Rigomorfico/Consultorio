@@ -1,0 +1,3 @@
+# Sitio principal: la Bitácora solo vive en su subdominio.
+/bitacora  https://app.psicologamileidygarcia.com/  301
+/bitacora/*  https://app.psicologamileidygarcia.com/:splat  301

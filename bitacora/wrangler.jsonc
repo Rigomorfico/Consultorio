@@ -3,6 +3,9 @@
 {
   "name": "bitacora",
   "compatibility_date": "2025-09-01",
+  // Solo app.psicologamileidygarcia.com: sin URLs públicas *.workers.dev ni de vista previa.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "."
   }

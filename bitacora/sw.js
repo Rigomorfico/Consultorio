@@ -1,6 +1,6 @@
 const CACHE_PREFIX = "bitacora-shell-";
 // Incrementa la versión cada vez que cambie cualquier archivo de APP_SHELL.
-const CACHE_NAME = `${CACHE_PREFIX}v7-consultorio`;
+const CACHE_NAME = `${CACHE_PREFIX}v8-consultorio`;
 const RUNTIME_CACHE = "bitacora-runtime";
 
 // "./" y no "./index.html": Cloudflare Pages redirige /index.html -> / (URLs limpias),

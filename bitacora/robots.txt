@@ -1,0 +1,3 @@
+# Robots: se permite rastrear para que los buscadores lean "noindex" y no la muestren.
+User-agent: *
+Allow: /
